@@ -5,26 +5,26 @@
         "ie2": {
             "GP": 169,
             "TP": 89,
-            "Kick": 77,
-            "Body": 60,
-            "Control": 57,
-            "Guard": 63,
-            "Speed": 78,
-            "Stamina": 60,
-            "Guts": 70,
-            "Freedom": 20
+            "kick": 77,
+            "body": 60,
+            "control": 57,
+            "guard": 63,
+            "speed": 78,
+            "stamina": 60,
+            "guts": 70,
+            "freedom": 20
         },
         "ie3": {
             "GP": 104,
             "TP": 113,
-            "Kick": 59,
-            "Body": 60,
-            "Control": 57,
-            "Guard": 73,
-            "Speed": 72,
-            "Stamina": 56,
-            "Guts": 58,
-            "Freedom": 8
+            "kick": 59,
+            "body": 60,
+            "control": 57,
+            "guard": 73,
+            "speed": 72,
+            "stamina": 56,
+            "guts": 58,
+            "freedom": 8
         }
     },
     {
@@ -33,26 +33,26 @@
         "ie2": {
             "GP": 117,
             "TP": 118,
-            "Kick": 57,
-            "Body": 53,
-            "Control": 60,
-            "Guard": 55,
-            "Speed": 79,
-            "Stamina": 60,
-            "Guts": 59,
-            "Freedom": 20
+            "kick": 57,
+            "body": 53,
+            "control": 60,
+            "guard": 55,
+            "speed": 79,
+            "stamina": 60,
+            "guts": 59,
+            "freedom": 20
         },
         "ie3": {
             "GP": 117,
             "TP": 118,
-            "Kick": 57,
-            "Body": 53,
-            "Control": 60,
-            "Guard": 55,
-            "Speed": 79,
-            "Stamina": 60,
-            "Guts": 56,
-            "Freedom": 20
+            "kick": 57,
+            "body": 53,
+            "control": 60,
+            "guard": 55,
+            "speed": 79,
+            "stamina": 60,
+            "guts": 56,
+            "freedom": 20
         }
     },
     {
@@ -61,26 +61,26 @@
         "ie2": {
             "GP": 156,
             "TP": 77,
-            "Kick": 56,
-            "Body": 63,
-            "Control": 77,
-            "Guard": 54,
-            "Speed": 62,
-            "Stamina": 60,
-            "Guts": 62,
-            "Freedom": 19
+            "kick": 56,
+            "body": 63,
+            "control": 77,
+            "guard": 54,
+            "speed": 62,
+            "stamina": 60,
+            "guts": 62,
+            "freedom": 19
         },
         "ie3": {
             "GP": 120,
             "TP": 136,
-            "Kick": 56,
-            "Body": 63,
-            "Control": 77,
-            "Guard": 54,
-            "Speed": 62,
-            "Stamina": 57,
-            "Guts": 58,
-            "Freedom": 4
+            "kick": 56,
+            "body": 63,
+            "control": 77,
+            "guard": 54,
+            "speed": 62,
+            "stamina": 57,
+            "guts": 58,
+            "freedom": 4
         }
     },
     {
@@ -89,26 +89,26 @@
         "ie2": {
             "GP": 156,
             "TP": 72,
-            "Kick": 68,
-            "Body": 76,
-            "Control": 71,
-            "Guard": 70,
-            "Speed": 77,
-            "Stamina": 56,
-            "Guts": 56,
-            "Freedom": 15
+            "kick": 68,
+            "body": 76,
+            "control": 71,
+            "guard": 70,
+            "speed": 77,
+            "stamina": 56,
+            "guts": 56,
+            "freedom": 15
         },
         "ie3": {
             "GP": 115,
             "TP": 118,
-            "Kick": 68,
-            "Body": 76,
-            "Control": 53,
-            "Guard": 70,
-            "Speed": 56,
-            "Stamina": 56,
-            "Guts": 58,
-            "Freedom": 10
+            "kick": 68,
+            "body": 76,
+            "control": 53,
+            "guard": 70,
+            "speed": 56,
+            "stamina": 56,
+            "guts": 58,
+            "freedom": 10
         }
     },
     {
@@ -117,26 +117,26 @@
         "ie2": {
             "GP": 167,
             "TP": 89,
-            "Kick": 64,
-            "Body": 66,
-            "Control": 65,
-            "Guard": 66,
-            "Speed": 58,
-            "Stamina": 68,
-            "Guts": 66,
-            "Freedom": 9
+            "kick": 64,
+            "body": 66,
+            "control": 65,
+            "guard": 66,
+            "speed": 58,
+            "stamina": 68,
+            "guts": 66,
+            "freedom": 9
         },
         "ie3": {
             "GP": 119,
             "TP": 120,
-            "Kick": 60,
-            "Body": 61,
-            "Control": 60,
-            "Guard": 61,
-            "Speed": 53,
-            "Stamina": 63,
-            "Guts": 61,
-            "Freedom": 22
+            "kick": 60,
+            "body": 61,
+            "control": 60,
+            "guard": 61,
+            "speed": 53,
+            "stamina": 63,
+            "guts": 61,
+            "freedom": 22
         }
     },
     {
@@ -145,26 +145,26 @@
         "ie2": {
             "GP": 185,
             "TP": 100,
-            "Kick": 60,
-            "Body": 64,
-            "Control": 78,
-            "Guard": 61,
-            "Speed": 65,
-            "Stamina": 55,
-            "Guts": 60,
-            "Freedom": 12
+            "kick": 60,
+            "body": 64,
+            "control": 78,
+            "guard": 61,
+            "speed": 65,
+            "stamina": 55,
+            "guts": 60,
+            "freedom": 12
         },
         "ie3": {
             "GP": 125,
             "TP": 121,
-            "Kick": 57,
-            "Body": 61,
-            "Control": 72,
-            "Guard": 58,
-            "Speed": 62,
-            "Stamina": 52,
-            "Guts": 57,
-            "Freedom": 24
+            "kick": 57,
+            "body": 61,
+            "control": 72,
+            "guard": 58,
+            "speed": 62,
+            "stamina": 52,
+            "guts": 57,
+            "freedom": 24
         }
     },
     {
@@ -173,26 +173,26 @@
         "ie2": {
             "GP": 154,
             "TP": 81,
-            "Kick": 55,
-            "Body": 58,
-            "Control": 68,
-            "Guard": 57,
-            "Speed": 69,
-            "Stamina": 59,
-            "Guts": 61,
-            "Freedom": 14
+            "kick": 55,
+            "body": 58,
+            "control": 68,
+            "guard": 57,
+            "speed": 69,
+            "stamina": 59,
+            "guts": 61,
+            "freedom": 14
         },
         "ie3": {
             "GP": 115,
             "TP": 135,
-            "Kick": 58,
-            "Body": 58,
-            "Control": 68,
-            "Guard": 57,
-            "Speed": 60,
-            "Stamina": 59,
-            "Guts": 61,
-            "Freedom": 10
+            "kick": 58,
+            "body": 58,
+            "control": 68,
+            "guard": 57,
+            "speed": 60,
+            "stamina": 59,
+            "guts": 61,
+            "freedom": 10
         }
     },
     {
@@ -201,26 +201,26 @@
         "ie2": {
             "GP": 165,
             "TP": 77,
-            "Kick": 56,
-            "Body": 60,
-            "Control": 78,
-            "Guard": 69,
-            "Speed": 72,
-            "Stamina": 62,
-            "Guts": 70,
-            "Freedom": 10
+            "kick": 56,
+            "body": 60,
+            "control": 78,
+            "guard": 69,
+            "speed": 72,
+            "stamina": 62,
+            "guts": 70,
+            "freedom": 10
         },
         "ie3": {
             "GP": 118,
             "TP": 77,
-            "Kick": 56,
-            "Body": 60,
-            "Control": 78,
-            "Guard": 69,
-            "Speed": 72,
-            "Stamina": 62,
-            "Guts": 70,
-            "Freedom": 10
+            "kick": 56,
+            "body": 60,
+            "control": 78,
+            "guard": 69,
+            "speed": 72,
+            "stamina": 62,
+            "guts": 70,
+            "freedom": 10
         }
     },
     {
@@ -229,26 +229,26 @@
         "ie2": {
             "GP": 195,
             "TP": 88,
-            "Kick": 68,
-            "Body": 67,
-            "Control": 62,
-            "Guard": 63,
-            "Speed": 70,
-            "Stamina": 68,
-            "Guts": 67,
-            "Freedom": 12
+            "kick": 68,
+            "body": 67,
+            "control": 62,
+            "guard": 63,
+            "speed": 70,
+            "stamina": 68,
+            "guts": 67,
+            "freedom": 12
         },
         "ie3": {
             "GP": 117,
             "TP": 123,
-            "Kick": 78,
-            "Body": 67,
-            "Control": 62,
-            "Guard": 53,
-            "Speed": 48,
-            "Stamina": 46,
-            "Guts": 67,
-            "Freedom": 15
+            "kick": 78,
+            "body": 67,
+            "control": 62,
+            "guard": 53,
+            "speed": 48,
+            "stamina": 46,
+            "guts": 67,
+            "freedom": 15
         }
     },
     {
@@ -257,26 +257,26 @@
         "ie2": {
             "GP": 158,
             "TP": 97,
-            "Kick": 65,
-            "Body": 65,
-            "Control": 79,
-            "Guard": 55,
-            "Speed": 78,
-            "Stamina": 64,
-            "Guts": 68,
-            "Freedom": 27
+            "kick": 65,
+            "body": 65,
+            "control": 79,
+            "guard": 55,
+            "speed": 78,
+            "stamina": 64,
+            "guts": 68,
+            "freedom": 27
         },
         "ie3": {
             "GP": 112,
             "TP": 130,
-            "Kick": 64,
-            "Body": 60,
-            "Control": 69,
-            "Guard": 55,
-            "Speed": 62,
-            "Stamina": 55,
-            "Guts": 60,
-            "Freedom": 17
+            "kick": 64,
+            "body": 60,
+            "control": 69,
+            "guard": 55,
+            "speed": 62,
+            "stamina": 55,
+            "guts": 60,
+            "freedom": 17
         }
     },
     {
@@ -285,26 +285,26 @@
         "ie2": {
             "GP": 178,
             "TP": 92,
-            "Kick": 79,
-            "Body": 79,
-            "Control": 73,
-            "Guard": 63,
-            "Speed": 62,
-            "Stamina": 68,
-            "Guts": 63,
-            "Freedom": 23
+            "kick": 79,
+            "body": 79,
+            "control": 73,
+            "guard": 63,
+            "speed": 62,
+            "stamina": 68,
+            "guts": 63,
+            "freedom": 23
         },
         "ie3": {
             "GP": 125,
             "TP": 128,
-            "Kick": 71,
-            "Body": 71,
-            "Control": 63,
-            "Guard": 64,
-            "Speed": 61,
-            "Stamina": 62,
-            "Guts": 61,
-            "Freedom": 6
+            "kick": 71,
+            "body": 71,
+            "control": 63,
+            "guard": 64,
+            "speed": 61,
+            "stamina": 62,
+            "guts": 61,
+            "freedom": 6
         }
     }
 ]

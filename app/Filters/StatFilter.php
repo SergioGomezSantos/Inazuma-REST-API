@@ -12,14 +12,14 @@ class StatFilter extends ApiFilter
         'version' => ['eq', 'ne'],
         'GP' => ['eq', 'lt', 'lte', 'gt', 'gte'],
         'TP' => ['eq', 'lt', 'lte', 'gt', 'gte'],
-        'Kick' => ['eq', 'lt', 'lte', 'gt', 'gte'],
-        'Body' => ['eq', 'lt', 'lte', 'gt', 'gte'],
-        'Control' => ['eq', 'lt', 'lte', 'gt', 'gte'],
-        'Guard' => ['eq', 'lt', 'lte', 'gt', 'gte'],
-        'Speed' => ['eq', 'lt', 'lte', 'gt', 'gte'],
-        'Stamina' => ['eq', 'lt', 'lte', 'gt', 'gte'],
-        'Guts' => ['eq', 'lt', 'lte', 'gt', 'gte'],
-        'Freedom' => ['eq', 'lt', 'lte', 'gt', 'gte']
+        'kick' => ['eq', 'lt', 'lte', 'gt', 'gte'],
+        'body' => ['eq', 'lt', 'lte', 'gt', 'gte'],
+        'control' => ['eq', 'lt', 'lte', 'gt', 'gte'],
+        'guard' => ['eq', 'lt', 'lte', 'gt', 'gte'],
+        'speed' => ['eq', 'lt', 'lte', 'gt', 'gte'],
+        'stamina' => ['eq', 'lt', 'lte', 'gt', 'gte'],
+        'guts' => ['eq', 'lt', 'lte', 'gt', 'gte'],
+        'freedom' => ['eq', 'lt', 'lte', 'gt', 'gte']
     ];
 
     protected $columnMap = [

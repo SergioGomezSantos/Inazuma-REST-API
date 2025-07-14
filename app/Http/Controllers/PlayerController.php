@@ -60,6 +60,22 @@ class PlayerController extends Controller
      */
     public function show(Player $player)
     {
+        $includeStats = request()->has('includeStats');
+        $includeTechniques = request()->has('includeTechniques');
+
+        if ($includeStats && $includeTechniques) {
+            return new PlayerResource($player->loadMissing(['stats', 'techniques']));
+        }
+
+        elseif ($includeStats) {
+            return new PlayerResource($player->loadMissing('stats'));
+        }
+
+        elseif ($includeTechniques) {
+            return new PlayerResource($player->loadMissing('techniques'));
+
+        }
+        
         return new PlayerResource($player);
     }
 

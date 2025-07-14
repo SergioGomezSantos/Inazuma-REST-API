@@ -67,6 +67,28 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
+        $includePlayers = request()->has('includePlayers');
+        $includeStats = request()->has('includeStats');
+        $includeTechniques = request()->has('includeTechniques');
+
+        if ($includePlayers) {
+
+            if ($includeStats && $includeTechniques) {
+                return new TeamResource($team->loadMissing(['players.stats', 'players.techniques']));
+            }
+
+            elseif ($includeStats) {
+                return new TeamResource($team->loadMissing('players.stats'));
+            }
+
+            elseif ($includeTechniques) {
+                return new TeamResource($team->loadMissing('players.techniques'));
+
+            } else {
+                return new TeamResource($team->loadMissing('players'));
+            }
+        }
+
         return new TeamResource($team);
     }
 
