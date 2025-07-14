@@ -1,0 +1,130 @@
+[
+    {
+        "name": "Rocky",
+        "full_name": "Rocky Black",
+        "position": "Portero",
+        "element": "Fuego",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/1/1c/%28MT%29_Rocky.png/revision/latest?cb=20230823224844&path-prefix=es"
+    },
+    {
+        "name": "Diver",
+        "full_name": "Chad Taylor",
+        "position": "Defensa",
+        "element": "Aire",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/5/56/%28MT%29_Diver.png/revision/latest?cb=20230823224825&path-prefix=es"
+    },
+    {
+        "name": "Hills",
+        "full_name": "Victor Hills",
+        "position": "Defensa",
+        "element": "Montaña",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/d/d1/%28MT%29_Hills.png/revision/latest?cb=20230823224836&path-prefix=es"
+    },
+    {
+        "name": "Hurley",
+        "full_name": "Hurley Kane",
+        "position": "Defensa",
+        "element": "Aire",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/f/fa/%28MT%29_Hurley.png/revision/latest?cb=20230823224838&path-prefix=es"
+    },
+    {
+        "name": "Redding",
+        "full_name": "Hector Redding",
+        "position": "Defensa",
+        "element": "Fuego",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/4/4f/%28MT%29_Redding.png/revision/latest?cb=20230823224841&path-prefix=es"
+    },
+    {
+        "name": "Fordline",
+        "full_name": "Mackenzie Fordline",
+        "position": "Centrocampista",
+        "element": "Aire",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/d/d7/%28MT%29_Fordline.png/revision/latest?cb=20230823224831&path-prefix=es"
+    },
+    {
+        "name": "Soundtown",
+        "full_name": "Cadence Soundtown",
+        "position": "Centrocampista",
+        "element": "Bosque",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/f/fe/%28MT%29_Soundtown.png/revision/latest?cb=20230823224848&path-prefix=es"
+    },
+    {
+        "name": "Delight",
+        "full_name": "Dora Delight",
+        "position": "Centrocampista",
+        "element": "Fuego",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/2/29/%28MT%29_Delight.png/revision/latest?cb=20230823224821&path-prefix=es"
+    },
+    {
+        "name": "Contented",
+        "full_name": "Tom Contented",
+        "position": "Centrocampista",
+        "element": "Montaña",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/c/cc/%28MT%29_Contented.png/revision/latest?cb=20230823224816&path-prefix=es"
+    },
+    {
+        "name": "Easton",
+        "full_name": "Joston Easton",
+        "position": "Delantero",
+        "element": "Aire",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/4/4b/%28MT%29_Easton.png/revision/latest?cb=20230823224829&path-prefix=es"
+    },
+    {
+        "name": "Shark",
+        "full_name": "Spring Millpond",
+        "position": "Delantero",
+        "element": "Aire",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/d/d2/%28MT%29_Shark.png/revision/latest?cb=20230823224846&path-prefix=es"
+    },
+    {
+        "name": "Cooley",
+        "full_name": "Gaston Cooley",
+        "position": "Portero",
+        "element": "Aire",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/3/33/%28MT%29_Cooley.png/revision/latest?cb=20230823224819&path-prefix=es"
+    },
+    {
+        "name": "Breakfast",
+        "full_name": "Bevan Breakfast",
+        "position": "Defensa",
+        "element": "Bosque",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/7/71/%28MT%29_Breakfast.png/revision/latest?cb=20230823224814&path-prefix=es"
+    },
+    {
+        "name": "Griddle",
+        "full_name": "Jack Griddle",
+        "position": "Centrocampista",
+        "element": "Fuego",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/8/87/%28MT%29_Griddle.png/revision/latest?cb=20230823224834&path-prefix=es"
+    },
+    {
+        "name": "Andagi",
+        "full_name": "Stan Andagi",
+        "position": "Centrocampista",
+        "element": "Montaña",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/1/17/%28MT%29_Andagi.png/revision/latest?cb=20230823224811&path-prefix=es"
+    },
+    {
+        "name": "Talent",
+        "full_name": "Coral Talent",
+        "position": "Delantero",
+        "element": "Aire",
+        "original_team": "Mary Times Memorial",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/a/a7/%28MT%29_Talent.png/revision/latest?cb=20230823224851&path-prefix=es"
+    }
+]

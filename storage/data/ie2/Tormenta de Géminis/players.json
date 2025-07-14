@@ -1,0 +1,90 @@
+[
+    {
+        "name": "Galileo",
+        "full_name": "Gordon Star",
+        "position": "Portero",
+        "element": "Bosque",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/5/5f/%28TG%29_Galileo.png/revision/latest?cb=20230821201557&path-prefix=es"
+    },
+    {
+        "name": "Coral",
+        "full_name": "Connor Shuttle",
+        "position": "Defensa",
+        "element": "Aire",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/f/f9/%28TG%29_Coral.png/revision/latest?cb=20230821201551&path-prefix=es"
+    },
+    {
+        "name": "Gigs",
+        "full_name": "Jim Landing",
+        "position": "Defensa",
+        "element": "Fuego",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/a/a5/%28TG%29_Gigs.png/revision/latest?cb=20230821201602&path-prefix=es"
+    },
+    {
+        "name": "Ganymede",
+        "full_name": "Grant Icewater",
+        "position": "Defensa",
+        "element": "Montaña",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/2/27/%28TG%29_Ganymede.png/revision/latest?cb=20230821201559&path-prefix=es"
+    },
+    {
+        "name": "Charon",
+        "full_name": "Charles Riverboat",
+        "position": "Defensa",
+        "element": "Fuego",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/c/c9/%28TG%29_Charon.png/revision/latest?cb=20230821201549&path-prefix=es"
+    },
+    {
+        "name": "Pandora",
+        "full_name": "Pat Box",
+        "position": "Centrocampista",
+        "element": "Aire",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/5/5b/%28TG%29_Pandora.png/revision/latest?cb=20230821201612&path-prefix=es"
+    },
+    {
+        "name": "Grengo",
+        "full_name": "Gregory Saturn",
+        "position": "Centrocampista",
+        "element": "Montaña",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/2/2b/%28TG%29_Grengo.png/revision/latest?cb=20230821201604&path-prefix=es"
+    },
+    {
+        "name": "Io",
+        "full_name": "Izzy Jupiter",
+        "position": "Centrocampista",
+        "element": "Fuego",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/4/46/%28TG%29_Io.png/revision/latest?cb=20230821201607&path-prefix=es"
+    },
+    {
+        "name": "Rihm",
+        "full_name": "Rhona Countdown",
+        "position": "Delantero",
+        "element": "Bosque",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/f/f8/%28TG%29_Rihm.png/revision/latest?cb=20230821201614&path-prefix=es"
+    },
+    {
+        "name": "Janus",
+        "full_name": "Jordan Greenway",
+        "position": "Centrocampista",
+        "element": "Bosque",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/1/12/%28TG%29_Janus.png/revision/latest?cb=20230821201609&path-prefix=es"
+    },
+    {
+        "name": "Diam",
+        "full_name": "Dylan Bluemoon",
+        "position": "Delantero",
+        "element": "Bosque",
+        "original_team": "Tormenta de Géminis",
+        "image": "https://static.wikia.nocookie.net/inazuma/images/a/a2/%28TG%29_Diam.png/revision/latest?cb=20230821201554&path-prefix=es"
+    }
+]
