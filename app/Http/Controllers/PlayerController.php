@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Http\Requests\StorePlayerRequest;
 use App\Http\Requests\UpdatePlayerRequest;
 use App\Http\Resources\PlayerCollection;
+use App\Http\Resources\PlayerResource;
 use Illuminate\Http\Request;
 
 class PlayerController extends Controller
@@ -59,7 +60,7 @@ class PlayerController extends Controller
      */
     public function show(Player $player)
     {
-        //
+        return new PlayerResource($player);
     }
 
     /**

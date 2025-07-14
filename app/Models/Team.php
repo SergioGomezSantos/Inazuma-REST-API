@@ -23,11 +23,6 @@ class Team extends Model
     {
         return $this->belongsToMany(Player::class)
             ->withPivot('position_id')
-            // ->orderByRaw("CASE 
-            //                 WHEN pivot_position_id LIKE 'pos-%' THEN 0 
-            //                 WHEN pivot_position_id LIKE 'bench-%' THEN 1 
-            //                 ELSE 2 
-            //               END")
             ->withTimestamps();
     }
 

@@ -7,6 +7,7 @@ use App\Models\Technique;
 use App\Http\Requests\StoreTechniqueRequest;
 use App\Http\Requests\UpdateTechniqueRequest;
 use App\Http\Resources\TechniqueCollection;
+use App\Http\Resources\TechniqueResource;
 use Illuminate\Http\Request;
 
 class TechniqueController extends Controller
@@ -44,7 +45,7 @@ class TechniqueController extends Controller
      */
     public function show(Technique $technique)
     {
-        //
+        return new TechniqueResource($technique);
     }
 
     /**

@@ -11,14 +11,14 @@ class Stat extends Model
         'version',
         'GP',
         'TP',
-        'Kick',
-        'Body',
-        'Control',
-        'Guard',
-        'Speed',
-        'Stamina',
-        'Guts',
-        'Freedom'
+        'kick',
+        'body',
+        'control',
+        'guard',
+        'speed',
+        'stamina',
+        'guts',
+        'freedom'
     ];
 
     public function player()

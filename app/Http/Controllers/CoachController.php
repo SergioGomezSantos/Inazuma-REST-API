@@ -7,6 +7,7 @@ use App\Models\Coach;
 use App\Http\Requests\StoreCoachRequest;
 use App\Http\Requests\UpdateCoachRequest;
 use App\Http\Resources\CoachCollection;
+use App\Http\Resources\CoachResource;
 use Illuminate\Http\Request;
 
 class CoachController extends Controller
@@ -44,7 +45,7 @@ class CoachController extends Controller
      */
     public function show(Coach $coach)
     {
-        //
+        return new CoachResource($coach);
     }
 
     /**

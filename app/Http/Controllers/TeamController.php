@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
 use App\Http\Resources\TeamCollection;
+use App\Http\Resources\TeamResource;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -24,20 +25,22 @@ class TeamController extends Controller
 
         $teams = Team::where($queryItems);
 
-        if ($includePlayers && $includeStats) {
-            $teams = $teams->with(['players.stats']);
-        }
-
-        if ($includePlayers && $includeTechniques) {
-            $teams = $teams->with(['players.techniques']);
-        }
-
-        if ($includePlayers && $includeStats && $includeTechniques) {
-            $teams = $teams->with(['players.stats', 'players.techniques']);
-        }
-
         if ($includePlayers) {
-            $teams = $teams->with('players');
+
+            if ($includeStats && $includeTechniques) {
+                $teams = $teams->with(['players.stats', 'players.techniques']);
+            }
+
+            elseif ($includeStats) {
+                $teams = $teams->with(['players.stats']);
+            }
+
+            elseif ($includeTechniques) {
+                $teams = $teams->with(['players.techniques']);
+
+            } else {
+                $teams = $teams->with('players');
+            }
         }
 
         return new TeamCollection($teams->paginate()->appends($request->query()));
@@ -64,7 +67,7 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        //
+        return new TeamResource($team);
     }
 
     /**

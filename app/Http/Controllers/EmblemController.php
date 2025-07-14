@@ -7,6 +7,7 @@ use App\Models\Emblem;
 use App\Http\Requests\StoreEmblemRequest;
 use App\Http\Requests\UpdateEmblemRequest;
 use App\Http\Resources\EmblemCollection;
+use App\Http\Resources\EmblemResource;
 use Illuminate\Http\Request;
 
 class EmblemController extends Controller
@@ -44,7 +45,7 @@ class EmblemController extends Controller
      */
     public function show(Emblem $emblem)
     {
-        //
+        return new EmblemResource($emblem);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\Formation;
 use App\Http\Requests\StoreFormationRequest;
 use App\Http\Requests\UpdateFormationRequest;
 use App\Http\Resources\FormationCollection;
+use App\Http\Resources\FormationResource;
 use Illuminate\Http\Request;
 
 class FormationController extends Controller
@@ -44,7 +45,7 @@ class FormationController extends Controller
      */
     public function show(Formation $formation)
     {
-        //
+        return new FormationResource($formation);
     }
 
     /**

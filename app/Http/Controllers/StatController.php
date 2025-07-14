@@ -7,6 +7,7 @@ use App\Models\Stat;
 use App\Http\Requests\StoreStatRequest;
 use App\Http\Requests\UpdateStatRequest;
 use App\Http\Resources\StatCollection;
+use App\Http\Resources\StatResource;
 use Illuminate\Http\Request;
 
 class StatController extends Controller
@@ -42,15 +43,15 @@ class StatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Stat $stats)
+    public function show(Stat $stat)
     {
-        //
+        return new StatResource($stat);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Stat $stats)
+    public function edit(Stat $stat)
     {
         //
     }
