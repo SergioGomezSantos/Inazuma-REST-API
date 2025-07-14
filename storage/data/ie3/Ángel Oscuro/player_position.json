@@ -1,46 +1,46 @@
 [
     {
         "player": "Astaroth",
-        "position_id": "pos-0"
+        "position": "pos-0"
     },
     {
         "player": "Hebimos",
-        "position_id": "pos-1"
+        "position": "pos-1"
     },
     {
         "player": "Rubú",
-        "position_id": "pos-2"
+        "position": "pos-2"
     },
     {
         "player": "Nenel",
-        "position_id": "pos-3"
+        "position": "pos-3"
     },
     {
         "player": "Lephiel",
-        "position_id": "pos-4"
+        "position": "pos-4"
     },
     {
         "player": "Malphas",
-        "position_id": "pos-5"
+        "position": "pos-5"
     },
     {
         "player": "Zanos",
-        "position_id": "pos-6"
+        "position": "pos-6"
     },
     {
         "player": "Gaiel",
-        "position_id": "pos-7"
+        "position": "pos-7"
     },
     {
         "player": "Wenel",
-        "position_id": "pos-8"
+        "position": "pos-8"
     },
     {
         "player": "Destra",
-        "position_id": "pos-9"
+        "position": "pos-9"
     },
     {
         "player": "Sael",
-        "position_id": "pos-10"
+        "position": "pos-10"
     }
 ]

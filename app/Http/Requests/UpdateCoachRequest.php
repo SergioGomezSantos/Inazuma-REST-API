@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCoachRequest extends FormRequest
 {
@@ -21,8 +22,20 @@ class UpdateCoachRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if ($this->method == 'PUT') {
+
+            return [
+                'name' => ['required', 'string', 'unique:coaches,name'],
+                'image' => ['required', 'url', 'regex:/^https:\/\/static\.wikia\.nocookie\.net\/.*inazuma.*\/images/'],
+                'version' => ['required', Rule::in(['ie1', 'ie2', 'ie3'])]
+            ];
+        } else {
+
+            return [
+                'name' => ['nullable', 'string', 'unique:coaches,name'],
+                'image' => ['nullable', 'url', 'regex:/^https:\/\/static\.wikia\.nocookie\.net\/.*inazuma.*\/images/'],
+                'version' => ['nullable', Rule::in(['ie1', 'ie2', 'ie3'])]
+            ];
+        }
     }
 }

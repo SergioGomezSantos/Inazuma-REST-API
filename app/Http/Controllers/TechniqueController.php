@@ -37,7 +37,7 @@ class TechniqueController extends Controller
      */
     public function store(StoreTechniqueRequest $request)
     {
-        //
+        return new TechniqueResource(Technique::create($request->all()));
     }
 
     /**
@@ -59,16 +59,19 @@ class TechniqueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTechniqueRequest $request, Technique $techniques)
+    public function update(UpdateTechniqueRequest $request, Technique $technique)
     {
-        //
+        $technique->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Technique $techniques)
+    public function destroy(Technique $technique)
     {
-        //
+        $technique->delete();
+        return response()->json([
+            'message' => 'Technique deleted successfully.',
+        ], 200);
     }
 }

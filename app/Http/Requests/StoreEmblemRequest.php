@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreEmblemRequest extends FormRequest
 {
@@ -22,7 +23,9 @@ class StoreEmblemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'unique:emblems,name'],
+            'image' => ['required', 'url', 'regex:/^https:\/\/static\.wikia\.nocookie\.net\/.*inazuma.*\/images/'],
+            'version' => ['required', Rule::in(['ie1', 'ie2', 'ie3'])]
         ];
     }
 }

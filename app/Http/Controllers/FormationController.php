@@ -37,7 +37,7 @@ class FormationController extends Controller
      */
     public function store(StoreFormationRequest $request)
     {
-        //
+        return new FormationResource(Formation::create($request->all()));
     }
 
     /**
@@ -61,7 +61,7 @@ class FormationController extends Controller
      */
     public function update(UpdateFormationRequest $request, Formation $formation)
     {
-        //
+        $formation->update($request->all());
     }
 
     /**
@@ -69,6 +69,9 @@ class FormationController extends Controller
      */
     public function destroy(Formation $formation)
     {
-        //
+        $formation->delete();
+        return response()->json([
+            'message' => 'Formation deleted successfully.',
+        ], 200);
     }
 }

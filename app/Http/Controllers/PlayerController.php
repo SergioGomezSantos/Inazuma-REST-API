@@ -52,8 +52,26 @@ class PlayerController extends Controller
      */
     public function store(StorePlayerRequest $request)
     {
-        //
+        $player = Player::create($request->only([
+            'name', 'fullName', 'position', 'element', 'originalTeam', 'image'
+        ]));
+
+        foreach ($request->input('stats') as $statData) {
+            $player->stats()->create($statData);
+        }
+
+        foreach ($request->input('techniques') as $techniqueData) {
+            $player->techniques()->attach($techniqueData['id'], [
+                'source' => $techniqueData['source'],
+                'with' => $techniqueData['with'] ? json_encode($techniqueData['with']) : null
+            ]);
+        }
+
+        $player->load('stats', 'techniques');
+
+        return new PlayerResource($player);
     }
+
 
     /**
      * Display the specified resource.
@@ -92,7 +110,36 @@ class PlayerController extends Controller
      */
     public function update(UpdatePlayerRequest $request, Player $player)
     {
-        //
+
+        $player->update($request->only([
+            'name', 'full_name', 'position', 'element', 'original_team', 'image'
+        ]));
+
+
+        if ($request->has('stats')) {
+            foreach ($request->input('stats') as $statData) {
+                $stat = $player->stats()->find($statData['id']);
+                if ($stat) {
+                    $stat->update($statData);
+                } else {
+                    $player->stats()->create($statData);
+                }
+            }
+        }
+
+        if ($request->has('techniques')) {
+            foreach ($request->input('techniques') as $techniqueData) {
+                $player->techniques()->syncWithoutDetaching([
+                    $techniqueData['id'] => [
+                        'source' => $techniqueData['source'],
+                        'with' => $techniqueData['with'] ? json_encode($techniqueData['with']) : null
+                    ]
+                ]);
+            }
+        }
+
+        $player->load('stats', 'techniques');
+        return new PlayerResource($player);
     }
 
     /**
@@ -100,6 +147,9 @@ class PlayerController extends Controller
      */
     public function destroy(Player $player)
     {
-        //
+        $player->delete();
+        return response()->json([
+            'message' => 'Player deleted successfully.',
+        ], 200);
     }
 }

@@ -37,7 +37,7 @@ class CoachController extends Controller
      */
     public function store(StoreCoachRequest $request)
     {
-        //
+        return new CoachResource(Coach::create($request->all()));
     }
 
     /**
@@ -61,7 +61,7 @@ class CoachController extends Controller
      */
     public function update(UpdateCoachRequest $request, Coach $coach)
     {
-        //
+        $coach->update($request->all());
     }
 
     /**
@@ -69,6 +69,9 @@ class CoachController extends Controller
      */
     public function destroy(Coach $coach)
     {
-        //
+        $coach->delete();
+        return response()->json([
+            'message' => 'Coach deleted successfully.',
+        ], 200);
     }
 }

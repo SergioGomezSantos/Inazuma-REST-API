@@ -37,7 +37,7 @@ class EmblemController extends Controller
      */
     public function store(StoreEmblemRequest $request)
     {
-        //
+        return new EmblemResource(Emblem::create($request->all()));
     }
 
     /**
@@ -61,7 +61,7 @@ class EmblemController extends Controller
      */
     public function update(UpdateEmblemRequest $request, Emblem $emblem)
     {
-        //
+        $emblem->update($request->all());
     }
 
     /**
@@ -69,6 +69,9 @@ class EmblemController extends Controller
      */
     public function destroy(Emblem $emblem)
     {
-        //
+        $emblem->delete();
+        return response()->json([
+            'message' => 'Emblem deleted successfully.',
+        ], 200);
     }
 }

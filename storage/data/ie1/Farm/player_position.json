@@ -1,66 +1,66 @@
 [
     {
         "player": "Albert Green",
-        "position_id": "pos-0"
+        "position": "pos-0"
     },
     {
         "player": "Kent Work",
-        "position_id": "pos-1"
+        "position": "pos-1"
     },
     {
         "player": "Mark Hillvalley",
-        "position_id": "pos-2"
+        "position": "pos-2"
     },
     {
         "player": "Herb Sherman",
-        "position_id": "pos-3"
+        "position": "pos-3"
     },
     {
         "player": "Seward Hayseed",
-        "position_id": "pos-4"
+        "position": "pos-4"
     },
     {
         "player": "Orville Newman",
-        "position_id": "pos-5"
+        "position": "pos-5"
     },
     {
         "player": "Joe Small",
-        "position_id": "pos-6"
+        "position": "pos-6"
     },
     {
         "player": "Ike Steiner",
-        "position_id": "pos-7"
+        "position": "pos-7"
     },
     {
         "player": "Daniel Dawson",
-        "position_id": "pos-8"
+        "position": "pos-8"
     },
     {
         "player": "Tom Walters",
-        "position_id": "pos-9"
+        "position": "pos-9"
     },
     {
         "player": "Stuart Racoonfur",
-        "position_id": "pos-10"
+        "position": "pos-10"
     },
     {
         "player": "Lorne Mower",
-        "position_id": "bench-0"
+        "position": "bench-0"
     },
     {
         "player": "Homer Grower",
-        "position_id": "bench-1"
+        "position": "bench-1"
     },
     {
         "player": "Rolf Howells",
-        "position_id": "bench-2"
+        "position": "bench-2"
     },
     {
         "player": "Luke Lively",
-        "position_id": "bench-3"
+        "position": "bench-3"
     },
     {
         "player": "Ben Nevis",
-        "position_id": "bench-4"
+        "position": "bench-4"
     }
 ]

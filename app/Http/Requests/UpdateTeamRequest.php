@@ -21,8 +21,59 @@ class UpdateTeamRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if ($this->method == 'PUT') {
+
+            return [
+                'name' => ['required', 'string'],
+                'formationId' => ['required', 'exists:formation,id'],
+                'emblemId' => ['required', 'exists:emblem,id'],
+                'coachId' => ['required', 'exists:coach,id'],
+                'userId' => ['required', 'exists:user,id'],
+
+                'players' => ['required', 'array'],
+                'players.*.player_id' => ['required', 'exists:players,id'],
+                'players.*.position' => ['required', 'string', 'regex:/^(pos-(0|1|2|3|4|5|6|7|8|9|10)|bench-(0|1|2|3|4))$/'],
+            ];
+        } else {
+
+            return [
+                'name' => ['nullable', 'string'],
+                'formationId' => ['nullable', 'exists:formation,id'],
+                'emblemId' => ['nullable', 'exists:emblem,id'],
+                'coachId' => ['nullable', 'exists:coach,id'],
+                'userId' => ['nullable', 'exists:user,id'],
+
+                'players' => ['nullable', 'array'],
+                'players.*.player_id' => ['nullable', 'exists:players,id'],
+                'players.*.position' => ['nullable', 'string', 'regex:/^(pos-(0|1|2|3|4|5|6|7|8|9|10)|bench-(0|1|2|3|4))$/'],
+            ];
+        }
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->formationId) {
+            $this->merge([
+                'formation_id' => $this->formationId
+            ]);
+        }
+
+        if ($this->emblemId) {
+            $this->merge([
+                'emblem_id' => $this->emblemId
+            ]);
+        }
+
+        if ($this->coachId) {
+            $this->merge([
+                'coach_id' => $this->coachId
+            ]);
+        }
+
+        if ($this->userId) {
+            $this->merge([
+                'user_id' => $this->userId
+            ]);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTechniqueRequest extends FormRequest
 {
@@ -22,7 +23,17 @@ class StoreTechniqueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ["required", "string", "unique:techniques,name"],
+            'element' => [
+                'nullable', 
+                Rule::in(['Aire', 'Bosque', 'Fuego', 'Montaña', 'Neutro']),
+                function ($attribute, $value, $fail) {
+                    if ($this->input('type') !== 'Talento' && $value !== null) {
+                        $fail('The "element" field can only be null if "type" is Talento.');
+                    }
+                }
+            ],
+            'type' => ["required", Rule::in(['Tiro', 'Regate', 'Bloqueo', 'Atajo', 'Talento'])]
         ];
     }
 }

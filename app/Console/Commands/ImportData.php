@@ -240,7 +240,7 @@ class ImportData extends Command
 
                         if ($player) {
                             if (!$team->players()->where('player_id', $player->id)->exists()) {
-                                $team->players()->attach($player->id, ['position_id' => $pos['position_id']]);
+                                $team->players()->attach($player->id, ['position' => $pos['position']]);
                             }
                         }
                     }

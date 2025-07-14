@@ -29,15 +29,10 @@ class TeamController extends Controller
 
             if ($includeStats && $includeTechniques) {
                 $teams = $teams->with(['players.stats', 'players.techniques']);
-            }
-
-            elseif ($includeStats) {
+            } elseif ($includeStats) {
                 $teams = $teams->with(['players.stats']);
-            }
-
-            elseif ($includeTechniques) {
+            } elseif ($includeTechniques) {
                 $teams = $teams->with(['players.techniques']);
-
             } else {
                 $teams = $teams->with('players');
             }
@@ -59,7 +54,22 @@ class TeamController extends Controller
      */
     public function store(StoreTeamRequest $request)
     {
-        //
+        $team = Team::create($request->only([
+            'name',
+            'formation_id',
+            'emblem_id',
+            'coach_id',
+            'user_id'
+        ]));
+
+        foreach ($request->players as $playerData) {
+            $team->players()->attach($playerData['id'], [
+                'position' => $playerData['position'],
+            ]);
+        }
+
+        $team->load('players');
+        return new TeamResource($team);
     }
 
     /**
@@ -75,15 +85,10 @@ class TeamController extends Controller
 
             if ($includeStats && $includeTechniques) {
                 return new TeamResource($team->loadMissing(['players.stats', 'players.techniques']));
-            }
-
-            elseif ($includeStats) {
+            } elseif ($includeStats) {
                 return new TeamResource($team->loadMissing('players.stats'));
-            }
-
-            elseif ($includeTechniques) {
+            } elseif ($includeTechniques) {
                 return new TeamResource($team->loadMissing('players.techniques'));
-
             } else {
                 return new TeamResource($team->loadMissing('players'));
             }
@@ -105,7 +110,30 @@ class TeamController extends Controller
      */
     public function update(UpdateTeamRequest $request, Team $team)
     {
-        //
+        $team->update($request->only([
+            'name',
+            'full_name',
+            'position',
+            'element',
+            'original_team',
+            'image'
+        ]));
+
+
+        if ($request->has('players')) {
+            $playerSyncData = [];
+
+            foreach ($request->players as $playerData) {
+                $playerSyncData[$playerData['id']] = [
+                    'position' => $playerData['position']
+                ];
+            }
+
+            $team->players()->sync($playerSyncData);
+        }
+
+        $team->load('players');
+        return new TeamResource($team);
     }
 
     /**
@@ -113,6 +141,9 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        //
+        $team->delete();
+        return response()->json([
+            'message' => 'Team deleted successfully.',
+        ], 200);
     }
 }

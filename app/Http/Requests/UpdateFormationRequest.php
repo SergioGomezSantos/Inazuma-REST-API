@@ -21,8 +21,18 @@ class UpdateFormationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if ($this->method == 'PUT') {
+
+            return [
+                'name' => ['required', 'string', 'unique:formations,name'],
+                'layout' => ['required', 'regex:/^\d{1,2}(-\d{1,2}){2,3}$/'],
+            ];
+        } else {
+
+            return [
+                'name' => ['nullable', 'string', 'unique:formations,name'],
+                'layout' => ['nullable', 'regex:/^\d{1,2}(-\d{1,2}){2,3}$/']
+            ];
+        }
     }
 }

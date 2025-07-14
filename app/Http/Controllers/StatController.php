@@ -37,7 +37,7 @@ class StatController extends Controller
      */
     public function store(StoreStatRequest $request)
     {
-        //
+        return new StatResource(Stat::create($request->all()));
     }
 
     /**
@@ -61,7 +61,7 @@ class StatController extends Controller
      */
     public function update(UpdateStatRequest $request, Stat $stat)
     {
-        //
+        $stat->update($request->all());
     }
 
     /**
@@ -69,6 +69,9 @@ class StatController extends Controller
      */
     public function destroy(Stat $stat)
     {
-        //
+        $stat->delete();
+        return response()->json([
+            'message' => 'Stats deleted successfully.',
+        ], 200);
     }
 }

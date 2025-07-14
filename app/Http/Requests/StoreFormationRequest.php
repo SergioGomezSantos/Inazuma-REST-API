@@ -22,7 +22,8 @@ class StoreFormationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'unique:formations,name'],
+            'layout' => ['required', 'regex:/^\d{1,2}(-\d{1,2}){2,3}$/'],
         ];
     }
 }
