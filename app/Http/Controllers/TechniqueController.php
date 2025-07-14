@@ -62,6 +62,7 @@ class TechniqueController extends Controller
     public function update(UpdateTechniqueRequest $request, Technique $technique)
     {
         $technique->update($request->all());
+        return new TechniqueResource($technique);
     }
 
     /**

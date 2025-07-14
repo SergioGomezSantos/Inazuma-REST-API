@@ -62,6 +62,7 @@ class FormationController extends Controller
     public function update(UpdateFormationRequest $request, Formation $formation)
     {
         $formation->update($request->all());
+        return new FormationResource($formation);
     }
 
     /**

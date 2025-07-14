@@ -31,6 +31,15 @@ class ImportData extends Command
             ]
         );
 
+        User::firstOrCreate(
+            ['email' => 'normal@normal'],
+            [
+                'name' => 'normal',
+                'password' => bcrypt('4321'),
+                'is_admin' => false,
+            ]
+        );
+
         // Crear entrenador por defecto
         Coach::firstOrCreate([
             'name' => 'Sin Entrenador',

@@ -62,6 +62,7 @@ class StatController extends Controller
     public function update(UpdateStatRequest $request, Stat $stat)
     {
         $stat->update($request->all());
+        return new StatResource($stat);
     }
 
     /**

@@ -62,6 +62,7 @@ class EmblemController extends Controller
     public function update(UpdateEmblemRequest $request, Emblem $emblem)
     {
         $emblem->update($request->all());
+        return new EmblemResource($emblem);
     }
 
     /**

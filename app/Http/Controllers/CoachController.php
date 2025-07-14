@@ -62,6 +62,7 @@ class CoachController extends Controller
     public function update(UpdateCoachRequest $request, Coach $coach)
     {
         $coach->update($request->all());
+        return new CoachResource($coach);
     }
 
     /**
