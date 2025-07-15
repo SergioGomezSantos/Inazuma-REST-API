@@ -18,11 +18,22 @@ class PlayerController extends Controller
     public function index(Request $request)
     {
         $filter = new PlayerFilter();
-        $queryItems = $filter->transform($request);
+        $filterResult = $filter->transform($request);
+        $queryItems = $filterResult['where'];
+        $relationFilters = $filterResult['with'];
+
         $includeStats = $request->has('includeStats');
         $includeTechniques = $request->has('includeTechniques');
 
         $players = Player::where($queryItems);
+
+        foreach ($relationFilters as $relation => $filters) {
+            $players->whereHas($relation, function ($query) use ($filters) {
+                foreach ($filters as $filter) {
+                    $query->where($filter['column'], $filter['operator'], $filter['value']);
+                }
+            });
+        }
 
         if ($includeStats) {
             $players = $players->with('stats');
@@ -30,10 +41,6 @@ class PlayerController extends Controller
 
         if ($includeTechniques) {
             $players = $players->with('techniques');
-        }
-
-        if ($includeStats && $includeTechniques) {
-            $players = $players->with(['stats', 'techniques']);
         }
 
         return new PlayerCollection($players->paginate()->appends($request->query()));

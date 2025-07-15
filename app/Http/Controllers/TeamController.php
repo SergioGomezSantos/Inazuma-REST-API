@@ -23,23 +23,19 @@ class TeamController extends Controller
     public function index(Request $request)
     {
         $filter = new TeamFilter();
-        $queryItems = $filter->transform($request);
+        $filterResult = $filter->transform($request);
+        $queryItems = $filterResult['where'];
+        $relationFilters = $filterResult['with'];
+
         $includePlayers = $request->has('includePlayers');
         $includeStats = $request->has('includeStats');
         $includeTechniques = $request->has('includeTechniques');
 
         $relations = [];
-
         if ($includePlayers) {
-            if ($includeStats && $includeTechniques) {
-                $relations = ['players.stats', 'players.techniques'];
-            } elseif ($includeStats) {
-                $relations = ['players.stats'];
-            } elseif ($includeTechniques) {
-                $relations = ['players.techniques'];
-            } else {
-                $relations = ['players'];
-            }
+            $relations = ['players'];
+            if ($includeStats) $relations[] = 'players.stats';
+            if ($includeTechniques) $relations[] = 'players.techniques';
         }
 
         $user = $request->user();
@@ -52,6 +48,14 @@ class TeamController extends Controller
                 $teams->where($queryItems);
             }
 
+            foreach ($relationFilters as $relationPath => $filters) {
+                $teams->whereHas($relationPath, function ($query) use ($filters) {
+                    foreach ($filters as $filter) {
+                        $query->where($filter['column'], $filter['operator'], $filter['value']);
+                    }
+                });
+            }
+
             if (!empty($relations)) {
                 $teams->with($relations);
             }
@@ -61,7 +65,17 @@ class TeamController extends Controller
 
         // Normal User
         if ($user) {
-            $globalQuery = Team::query()->when(!empty($queryItems), fn($q) => $q->where($queryItems))->limit(54);
+            $globalQuery = Team::query()
+                ->when(!empty($queryItems), fn($q) => $q->where($queryItems))
+                ->limit(54);
+
+            foreach ($relationFilters as $relationPath => $filters) {
+                $globalQuery->whereHas($relationPath, function ($query) use ($filters) {
+                    foreach ($filters as $filter) {
+                        $query->where($filter['column'], $filter['operator'], $filter['value']);
+                    }
+                });
+            }
 
             if (!empty($relations)) {
                 $globalQuery->with($relations);
@@ -73,6 +87,14 @@ class TeamController extends Controller
                 ->where('user_id', $user->id)
                 ->when(!empty($queryItems), fn($q) => $q->where($queryItems));
 
+            foreach ($relationFilters as $relationPath => $filters) {
+                $ownQuery->whereHas($relationPath, function ($query) use ($filters) {
+                    foreach ($filters as $filter) {
+                        $query->where($filter['column'], $filter['operator'], $filter['value']);
+                    }
+                });
+            }
+
             if (!empty($relations)) {
                 $ownQuery->with($relations);
             }
@@ -80,8 +102,7 @@ class TeamController extends Controller
             $ownTeams = $ownQuery->get();
             $combined = $ownTeams->concat($globalTeams)->unique('id')->values();
 
-
-            // Manual Paginate to avoid problems on collect
+            // Manual Paginate
             $page = LengthAwarePaginator::resolveCurrentPage();
             $perPage = 15;
             $results = new Collection($combined);
@@ -96,8 +117,18 @@ class TeamController extends Controller
             return new TeamCollection($paginated);
         }
 
-        // Unathenticated
-        $query = Team::query()->when(!empty($queryItems), fn($q) => $q->where($queryItems))->limit(54);
+        // Unauthenticated
+        $query = Team::query()
+            ->when(!empty($queryItems), fn($q) => $q->where($queryItems))
+            ->limit(54);
+
+        foreach ($relationFilters as $relationPath => $filters) {
+            $query->whereHas($relationPath, function ($query) use ($filters) {
+                foreach ($filters as $filter) {
+                    $query->where($filter['column'], $filter['operator'], $filter['value']);
+                }
+            });
+        }
 
         if (!empty($relations)) {
             $query->with($relations);
