@@ -10,30 +10,81 @@ use App\Http\Resources\TechniqueCollection;
 use App\Http\Resources\TechniqueResource;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(
+ *     name="Techniques",
+ *     description="Endpoints for Techniques"
+ * )
+ */
 class TechniqueController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/v1/techniques",
+     *     tags={"Techniques"},
+     *     summary="List all techniques",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="name[eq]",
+     *         in="query",
+     *         @OA\Schema(type="string", example="Mano Celestial")
+     *     ),
+     *     @OA\Parameter(
+     *         name="element[eq]",
+     *         in="query",
+     *         @OA\Schema(type="string", example="Fuego")
+     *     ),
+     *     @OA\Parameter(
+     *         name="element[ne]",
+     *         in="query",
+     *         @OA\Schema(type="string", example="Aire")
+     *     ),
+     *     @OA\Parameter(
+     *         name="type[eq]",
+     *         in="query",
+     *         @OA\Schema(type="string", example="Tiro")
+     *     ),
+     *     @OA\Parameter(
+     *         name="type[ne]",
+     *         in="query",
+     *         @OA\Schema(type="string", example="Atajo")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/TechniqueCollection")
+     *     )
+     * )
      */
     public function index(Request $request)
     {
         $filter = new TechniqueFilter();
         $queryItems = $filter->transform($request);
 
-        $teams = Technique::where($queryItems);
-        return new TechniqueCollection($teams->paginate()->appends($request->query()));
+        $techniques = Technique::where($queryItems);
+        return new TechniqueCollection($techniques->paginate()->appends($request->query()));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/v1/techniques",
+     *     tags={"Techniques"},
+     *     summary="Create new technique",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/TechniqueRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Technique created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/TechniqueResource")
+     *     )
+     * )
      */
     public function store(StoreTechniqueRequest $request)
     {
@@ -41,7 +92,26 @@ class TechniqueController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/techniques/{id}",
+     *     tags={"Techniques"},
+     *     summary="Get specific technique",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Technique details",
+     *         @OA\JsonContent(ref="#/components/schemas/TechniqueResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Technique not found"
+     *     )
+     * )
      */
     public function show(Technique $technique)
     {
@@ -49,15 +119,27 @@ class TechniqueController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Technique $technique)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/techniques/{id}",
+     *     tags={"Techniques"},
+     *     summary="Update a technique",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/TechniqueRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Technique updated",
+     *         @OA\JsonContent(ref="#/components/schemas/TechniqueResource")
+     *     )
+     * )
      */
     public function update(UpdateTechniqueRequest $request, Technique $technique)
     {
@@ -66,7 +148,25 @@ class TechniqueController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/techniques/{id}",
+     *     tags={"Techniques"},
+     *     summary="Delete technique",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Technique deleted",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Technique deleted successfully")
+     *         )
+     *     )
+     * )
      */
     public function destroy(Technique $technique)
     {

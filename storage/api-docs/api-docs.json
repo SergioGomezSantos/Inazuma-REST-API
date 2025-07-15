@@ -1,0 +1,3246 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Inazuma API",
+        "description": "API for Inazuma Eleven",
+        "contact": {
+            "email": "gomez.sergio.smr@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "paths": {
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User login",
+                "description": "Authenticates user and returns API token",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "description": "User credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Incorrect credentials"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User logout",
+                "description": "Revokes the current access token",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LogoutResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/coaches": {
+            "get": {
+                "tags": [
+                    "Coaches"
+                ],
+                "summary": "List all coaches",
+                "operationId": "59ec5701439b901b9e051a2d86df6dcf",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "Seymour Hillman"
+                        }
+                    },
+                    {
+                        "name": "version[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "ie1"
+                        }
+                    },
+                    {
+                        "name": "version[ne]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "ie1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CoachCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Coaches"
+                ],
+                "summary": "Create new coach",
+                "description": "Requires admin privileges",
+                "operationId": "createCoach",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CoachRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Coach created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CoachResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/coaches/{id}": {
+            "get": {
+                "tags": [
+                    "Coaches"
+                ],
+                "summary": "Get specific coach",
+                "description": "Public endpoint to get coach details",
+                "operationId": "getCoach",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Coach ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Coach details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CoachResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coach not found"
+                    }
+                },
+                "security": []
+            },
+            "put": {
+                "tags": [
+                    "Coaches"
+                ],
+                "summary": "Update a coach",
+                "operationId": "8e726c14ddd5577d820b8025fed37dd3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Coach"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Coach updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Coach"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Coaches"
+                ],
+                "summary": "Delete coach",
+                "description": "Requires admin privileges",
+                "operationId": "deleteCoach",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Coach ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Coach deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coach deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Coach not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/emblems": {
+            "get": {
+                "tags": [
+                    "Emblems"
+                ],
+                "summary": "List all emblems",
+                "operationId": "bcd941e46969e46e66954b7c7d8927ca",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "Raimon"
+                        }
+                    },
+                    {
+                        "name": "version[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "ie1"
+                        }
+                    },
+                    {
+                        "name": "version[ne]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "ie1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmblemCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Emblems"
+                ],
+                "summary": "Create new emblem",
+                "operationId": "8b189e51accf2123f5dd2b1f05a292f9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmblemRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Emblem created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmblemResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/emblems/{id}": {
+            "get": {
+                "tags": [
+                    "Emblems"
+                ],
+                "summary": "Get specific emblem",
+                "operationId": "cc89073512aaf4d258fe3379f6088b20",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Emblem details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmblemResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Emblem not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Emblems"
+                ],
+                "summary": "Update an emblem",
+                "operationId": "5445e667b7b4772d14c960d1d41ad280",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmblemRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Emblem updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmblemResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Emblems"
+                ],
+                "summary": "Delete emblem",
+                "operationId": "d71ec0a636e51bb7276932e576f4d305",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Emblem deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Emblem deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/formations": {
+            "get": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "List all formations",
+                "operationId": "c0436c2b13529fc03997bccef27302a8",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "Diamante"
+                        }
+                    },
+                    {
+                        "name": "layout[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "4-3-3"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FormationCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "Create new formation",
+                "operationId": "fd590d2d4ef87ac82d3380be22cd5fe3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FormationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Formation created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FormationResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/formations/{id}": {
+            "get": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "Get specific formation",
+                "operationId": "e8e2af8f9d62862d8aa6a0501f13037a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Formation details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FormationResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Formation not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "Update a formation",
+                "operationId": "b226c1d85416ff7b6810d2f4753848da",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FormationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Formation updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FormationResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "Delete formation",
+                "operationId": "897701a5401c554d1a839c2510d9bd58",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Formation deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Formation deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/players": {
+            "get": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "List all players",
+                "description": "Returns paginated list of players with optional filtering and relationship inclusion",
+                "operationId": "16812a1b3b1d32a4a62cddb75eff8f4b",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "description": "Filter by exact player name",
+                        "schema": {
+                            "type": "string",
+                            "example": "Mark"
+                        }
+                    },
+                    {
+                        "name": "fullName[eq]",
+                        "in": "query",
+                        "description": "Filter by exact full name",
+                        "schema": {
+                            "type": "string",
+                            "example": "Mark Evans"
+                        }
+                    },
+                    {
+                        "name": "position[eq]",
+                        "in": "query",
+                        "description": "Filter by exact position",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Portero",
+                                "Defensa",
+                                "Centrocampista",
+                                "Delantero"
+                            ],
+                            "example": "Portero"
+                        }
+                    },
+                    {
+                        "name": "element[eq]",
+                        "in": "query",
+                        "description": "Filter by exact element",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Aire",
+                                "Bosque",
+                                "Fuego",
+                                "Montaña",
+                                "Neutro"
+                            ],
+                            "example": "Montaña"
+                        }
+                    },
+                    {
+                        "name": "originalTeam[eq]",
+                        "in": "query",
+                        "description": "Filter by exact originalTeam name",
+                        "schema": {
+                            "type": "string",
+                            "example": "Raimon"
+                        }
+                    },
+                    {
+                        "name": "kick[gt]",
+                        "in": "query",
+                        "description": "Filter by exact kick value",
+                        "schema": {
+                            "type": "string",
+                            "example": "80"
+                        }
+                    },
+                    {
+                        "name": "control[lt]",
+                        "in": "query",
+                        "description": "Filter by exact control value",
+                        "schema": {
+                            "type": "string",
+                            "example": "60"
+                        }
+                    },
+                    {
+                        "name": "technique[eq]",
+                        "in": "query",
+                        "description": "Filter by exact technique name",
+                        "schema": {
+                            "type": "string",
+                            "example": "Mano Celestial"
+                        }
+                    },
+                    {
+                        "name": "includeStats",
+                        "in": "query",
+                        "description": "Include player stats in response",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "includeTechniques",
+                        "in": "query",
+                        "description": "Include player techniques in response",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "includeTeams",
+                        "in": "query",
+                        "description": "Include teams the player belongs to",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "Create new player",
+                "description": "Create a new player with stats and techniques",
+                "operationId": "f0d94f130e4e7b90415d0acbbd3336d4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlayerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Player created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/players/{id}": {
+            "get": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "Get player details",
+                "description": "Returns detailed information about a specific player",
+                "operationId": "f3c721f0d7ec079ccd6da019590e4262",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Player ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "includeStats",
+                        "in": "query",
+                        "description": "Include player stats in response",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "includeTechniques",
+                        "in": "query",
+                        "description": "Include player techniques in response",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "includeTeams",
+                        "in": "query",
+                        "description": "Include teams the player belongs to",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Player details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Player not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "Update player",
+                "description": "Update player information including stats and techniques",
+                "operationId": "1be3606d08478fb7fb1e21bff3a3b02a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Player ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlayerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Player updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "404": {
+                        "description": "Player not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "Delete player",
+                "description": "Permanently delete a player",
+                "operationId": "f4536a8612d9f8f0707e37c883f53818",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Player ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Player deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Player deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Player not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stats": {
+            "get": {
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "List all player stats",
+                "operationId": "a50eb4df8ec353c551c12ee48a36b301",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "playerId[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "version[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "ie1"
+                        }
+                    },
+                    {
+                        "name": "GP[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "TP[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "kick[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "body[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "control[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "guard[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "speed[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "stamina[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "guts[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    },
+                    {
+                        "name": "freedom[gt]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 80
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Create new player stats",
+                "operationId": "1f4abc9eace146bb71aa17e3e83e51be",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StatRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Stats created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stats/{id}": {
+            "get": {
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get specific player stats",
+                "operationId": "4e7f5670d21ae4dafdcd08f6d23ebd03",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Stats details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Stats not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Update player stats",
+                "operationId": "e8dcabab665c861f07a3d4d952ba3786",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StatRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Stats updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Delete player stats",
+                "operationId": "c1c01b048fa27f76b04f72d93d2e16a5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Stats deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Stat deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/teams": {
+            "get": {
+                "tags": [
+                    "Teams"
+                ],
+                "summary": "List all teams with optional filters",
+                "description": "Returns paginated list of teams. Different results are returned based on user role (admin, authenticated user, or guest).",
+                "operationId": "66de14dea23a1cf63a1dee58a5cc5905",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "description": "Filter by exact team name",
+                        "schema": {
+                            "type": "string",
+                            "example": "Raimon"
+                        }
+                    },
+                    {
+                        "name": "userId[eq]",
+                        "in": "query",
+                        "description": "Filter by exact user ID who owns the team",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "playerName[eq]",
+                        "in": "query",
+                        "description": "Filter teams containing players with exact name",
+                        "schema": {
+                            "type": "string",
+                            "example": "Mark"
+                        }
+                    },
+                    {
+                        "name": "playerFullName[eq]",
+                        "in": "query",
+                        "description": "Filter teams containing players with exact full name",
+                        "schema": {
+                            "type": "string",
+                            "example": "Mark Evans"
+                        }
+                    },
+                    {
+                        "name": "includePlayers",
+                        "in": "query",
+                        "description": "Include players in the response",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "includeStats",
+                        "in": "query",
+                        "description": "Include player stats (requires includePlayers)",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "includeTechniques",
+                        "in": "query",
+                        "description": "Include player techniques (requires includePlayers)",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Teams"
+                ],
+                "summary": "Create a new team",
+                "description": "Creates a new team with the specified players and their positions",
+                "operationId": "fdf48d4cde576b3ff280b0e588981c4f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TeamRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Team created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/teams/{id}": {
+            "get": {
+                "tags": [
+                    "Teams"
+                ],
+                "summary": "Get team details",
+                "description": "Returns detailed information about a specific team",
+                "operationId": "bf2640af970d006d2afac946fd93f450",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Team ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "includePlayers",
+                        "in": "query",
+                        "description": "Include players in the response",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "includeStats",
+                        "in": "query",
+                        "description": "Include player stats (requires includePlayers)",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "includeTechniques",
+                        "in": "query",
+                        "description": "Include player techniques (requires includePlayers)",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Team details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - not authorized to view this team"
+                    },
+                    "404": {
+                        "description": "Team not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Teams"
+                ],
+                "summary": "Update team information",
+                "description": "Updates team details and player positions",
+                "operationId": "4b6c0c9fc6aaa568cbd405d57a878fbf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Team ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TeamRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Team updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - not authorized to update this team"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Teams"
+                ],
+                "summary": "Delete a team",
+                "description": "Permanently deletes a team",
+                "operationId": "11e231e8473c3df157fc2660394a1ba1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Team ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Team deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Team deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - not authorized to delete this team"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/techniques": {
+            "get": {
+                "tags": [
+                    "Techniques"
+                ],
+                "summary": "List all techniques",
+                "operationId": "355148c23d049fc2f107d32b44fe8ee0",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "Mano Celestial"
+                        }
+                    },
+                    {
+                        "name": "element[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "Fuego"
+                        }
+                    },
+                    {
+                        "name": "element[ne]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "Aire"
+                        }
+                    },
+                    {
+                        "name": "type[eq]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "Tiro"
+                        }
+                    },
+                    {
+                        "name": "type[ne]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "Atajo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TechniqueCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Techniques"
+                ],
+                "summary": "Create new technique",
+                "operationId": "eeec0e9ba2decbebf2ecdc1b03cc66d3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TechniqueRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Technique created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TechniqueResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/techniques/{id}": {
+            "get": {
+                "tags": [
+                    "Techniques"
+                ],
+                "summary": "Get specific technique",
+                "operationId": "3eb87270433e1d4c1120e457cb7ae3cc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Technique details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TechniqueResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Technique not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Techniques"
+                ],
+                "summary": "Update a technique",
+                "operationId": "858dd494512e3f619cb3bd2553aa64a7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TechniqueRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Technique updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TechniqueResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Techniques"
+                ],
+                "summary": "Delete technique",
+                "operationId": "c01ffeff061b4a75dd32eb036e1d0eb6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Technique deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Technique deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginRequest": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "example": "password123"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResponse": {
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "example": "1|abcdef1234567890"
+                    },
+                    "user": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "John Doe"
+                            },
+                            "email": {
+                                "type": "string",
+                                "example": "user@example.com"
+                            },
+                            "is_admin": {
+                                "type": "boolean",
+                                "example": false
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "LogoutResponse": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Session Closed"
+                    }
+                },
+                "type": "object"
+            },
+            "CoachRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Coach's name",
+                        "type": "string",
+                        "example": "New Coach"
+                    },
+                    "image": {
+                        "description": "URL to coach's image",
+                        "type": "string",
+                        "example": "https://static.wikia.nocookie.net/inazuma/images/b/b8/Hillman_%28Sprite%29.png/revision/latest?cb=20201025114237&path-prefix=es"
+                    },
+                    "version": {
+                        "description": "Game version",
+                        "type": "string",
+                        "example": "ie1"
+                    }
+                },
+                "type": "object"
+            },
+            "CoachResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Coach"
+                    }
+                },
+                "type": "object"
+            },
+            "Coach": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Seymour Hillman"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://static.wikia.nocookie.net/inazuma/images/b/b8/Hillman_%28Sprite%29.png/revision/latest?cb=20201025114237&path-prefix=es"
+                    },
+                    "version": {
+                        "type": "string",
+                        "example": "ie1"
+                    }
+                },
+                "type": "object"
+            },
+            "CoachCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Coach"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/coaches?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/coaches?page=3"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/coaches?page=2"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 35
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "EmblemRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Emblem name",
+                        "type": "string",
+                        "example": "Raimon"
+                    },
+                    "image": {
+                        "description": "URL to emblem image",
+                        "type": "string",
+                        "example": "https://static.wikia.nocookie.net/inazuma/images/e/e1/Raimon_FF_Emblema.png/revision/latest?cb=20210620190405&path-prefix=es"
+                    },
+                    "version": {
+                        "description": "Game version",
+                        "type": "string",
+                        "example": "ie1"
+                    }
+                },
+                "type": "object"
+            },
+            "EmblemResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Emblem"
+                    }
+                },
+                "type": "object"
+            },
+            "Emblem": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Raimon"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://static.wikia.nocookie.net/inazuma/images/e/e1/Raimon_FF_Emblema.png/revision/latest?cb=20210620190405&path-prefix=es"
+                    },
+                    "version": {
+                        "type": "string",
+                        "example": "ie1"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "EmblemCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Emblem"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/emblems?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/emblems?page=3"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/emblems?page=2"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 35
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "FormationRequest": {
+                "required": [
+                    "name",
+                    "layout"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Formation name",
+                        "type": "string",
+                        "example": "Diamante"
+                    },
+                    "layout": {
+                        "description": "Formation layout pattern",
+                        "type": "string",
+                        "example": "4-3-3"
+                    }
+                },
+                "type": "object"
+            },
+            "FormationResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Formation"
+                    }
+                },
+                "type": "object"
+            },
+            "Formation": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Diamante"
+                    },
+                    "layout": {
+                        "type": "string",
+                        "example": "4-3-3"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "FormationCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Formation"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/formations?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/formations?page=3"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/formations?page=2"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 35
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "PlayerRequest": {
+                "required": [
+                    "name",
+                    "full_name",
+                    "position",
+                    "element",
+                    "original_team",
+                    "image",
+                    "stats",
+                    "techniques"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Mark"
+                    },
+                    "full_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Mark Evans"
+                    },
+                    "position": {
+                        "type": "string",
+                        "enum": [
+                            "Portero",
+                            "Defensa",
+                            "Centrocampista",
+                            "Delantero"
+                        ],
+                        "example": "Portero"
+                    },
+                    "element": {
+                        "type": "string",
+                        "enum": [
+                            "Aire",
+                            "Bosque",
+                            "Fuego",
+                            "Montaña",
+                            "Neutro"
+                        ],
+                        "example": "Montaña",
+                        "nullable": true
+                    },
+                    "original_team": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Raimon",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "https://static.wikia.nocookie.net/inazuma/images/2/22/%28R%29_Mark_%28PR%29.png/revision/latest?cb=20230912133740&path-prefix=es"
+                    },
+                    "stats": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "version",
+                                "GP",
+                                "TP",
+                                "kick",
+                                "body",
+                                "control",
+                                "guard",
+                                "speed",
+                                "stamina",
+                                "guts",
+                                "freedom"
+                            ],
+                            "properties": {
+                                "version": {
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "ie1"
+                                },
+                                "GP": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "example": 50
+                                },
+                                "TP": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "example": 100
+                                },
+                                "kick": {
+                                    "type": "integer",
+                                    "maximum": 99,
+                                    "minimum": 0,
+                                    "example": 80
+                                },
+                                "body": {
+                                    "type": "integer",
+                                    "maximum": 99,
+                                    "minimum": 0,
+                                    "example": 70
+                                },
+                                "control": {
+                                    "type": "integer",
+                                    "maximum": 99,
+                                    "minimum": 0,
+                                    "example": 75
+                                },
+                                "guard": {
+                                    "type": "integer",
+                                    "maximum": 99,
+                                    "minimum": 0,
+                                    "example": 65
+                                },
+                                "speed": {
+                                    "type": "integer",
+                                    "maximum": 99,
+                                    "minimum": 0,
+                                    "example": 90
+                                },
+                                "stamina": {
+                                    "type": "integer",
+                                    "maximum": 99,
+                                    "minimum": 0,
+                                    "example": 85
+                                },
+                                "guts": {
+                                    "type": "integer",
+                                    "maximum": 99,
+                                    "minimum": 0,
+                                    "example": 95
+                                },
+                                "freedom": {
+                                    "type": "integer",
+                                    "maximum": 99,
+                                    "minimum": 0,
+                                    "example": 60
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "techniques": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "id"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "source": {
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "default"
+                                },
+                                "with": {
+                                    "properties": {
+                                        "player_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        }
+                                    },
+                                    "type": "object",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PlayerResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Player"
+                    }
+                },
+                "type": "object"
+            },
+            "Player": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Mark"
+                    },
+                    "full_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Mark Evans"
+                    },
+                    "position": {
+                        "type": "string",
+                        "enum": [
+                            "Portero",
+                            "Defensa",
+                            "Centrocampista",
+                            "Delantero"
+                        ],
+                        "example": "Portero"
+                    },
+                    "element": {
+                        "type": "string",
+                        "enum": [
+                            "Aire",
+                            "Bosque",
+                            "Fuego",
+                            "Montaña",
+                            "Neutro"
+                        ],
+                        "example": "Montaña",
+                        "nullable": true
+                    },
+                    "original_team": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Raimon",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "https://example.com/mark.png"
+                    },
+                    "stats": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Stat"
+                        }
+                    },
+                    "techniques": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Mano Celestial"
+                                },
+                                "element": {
+                                    "type": "string",
+                                    "example": "Montaña"
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "example": "Tiro"
+                                },
+                                "pivot": {
+                                    "properties": {
+                                        "source": {
+                                            "type": "string",
+                                            "example": "default"
+                                        },
+                                        "with": {
+                                            "properties": {
+                                                "player_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "teams": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Raimon"
+                                },
+                                "pivot": {
+                                    "properties": {
+                                        "position": {
+                                            "type": "string",
+                                            "example": "Portero"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PlayerCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Player"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/players?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/players?page=3"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/players?page=2"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 35
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatRequest": {
+                "required": [
+                    "playerId",
+                    "version",
+                    "GP",
+                    "TP",
+                    "kick",
+                    "body",
+                    "control",
+                    "guard",
+                    "speed",
+                    "stamina",
+                    "guts",
+                    "freedom"
+                ],
+                "properties": {
+                    "playerId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "version": {
+                        "type": "string",
+                        "example": "ie1"
+                    },
+                    "GP": {
+                        "type": "integer",
+                        "example": 50
+                    },
+                    "TP": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "kick": {
+                        "type": "integer",
+                        "example": 80
+                    },
+                    "body": {
+                        "type": "integer",
+                        "example": 70
+                    },
+                    "control": {
+                        "type": "integer",
+                        "example": 75
+                    },
+                    "guard": {
+                        "type": "integer",
+                        "example": 65
+                    },
+                    "speed": {
+                        "type": "integer",
+                        "example": 90
+                    },
+                    "stamina": {
+                        "type": "integer",
+                        "example": 85
+                    },
+                    "guts": {
+                        "type": "integer",
+                        "example": 95
+                    },
+                    "freedom": {
+                        "type": "integer",
+                        "example": 60
+                    }
+                },
+                "type": "object"
+            },
+            "StatResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Stat"
+                    }
+                },
+                "type": "object"
+            },
+            "Stat": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "player_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "version": {
+                        "type": "string",
+                        "example": "ie1"
+                    },
+                    "GP": {
+                        "type": "integer",
+                        "example": 50
+                    },
+                    "TP": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "kick": {
+                        "type": "integer",
+                        "example": 80
+                    },
+                    "body": {
+                        "type": "integer",
+                        "example": 70
+                    },
+                    "control": {
+                        "type": "integer",
+                        "example": 75
+                    },
+                    "guard": {
+                        "type": "integer",
+                        "example": 65
+                    },
+                    "speed": {
+                        "type": "integer",
+                        "example": 90
+                    },
+                    "stamina": {
+                        "type": "integer",
+                        "example": 85
+                    },
+                    "guts": {
+                        "type": "integer",
+                        "example": 95
+                    },
+                    "freedom": {
+                        "type": "integer",
+                        "example": 60
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "StatCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Stat"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/stats?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/stats?page=3"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/stats?page=2"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 35
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "TeamPosition": {
+                "type": "string",
+                "enum": [
+                    "pos-0",
+                    "pos-1",
+                    "pos-2",
+                    "pos-3",
+                    "pos-4",
+                    "pos-5",
+                    "pos-6",
+                    "pos-7",
+                    "pos-8",
+                    "pos-9",
+                    "pos-10",
+                    "bench-0",
+                    "bench-1",
+                    "bench-2",
+                    "bench-3",
+                    "bench-4"
+                ],
+                "example": "pos-1"
+            },
+            "TeamPlayerPivot": {
+                "properties": {
+                    "position": {
+                        "$ref": "#/components/schemas/TeamPosition"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "TeamRequest": {
+                "required": [
+                    "name",
+                    "formation_id",
+                    "emblem_id",
+                    "coach_id",
+                    "players"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Raimon"
+                    },
+                    "formation_id": {
+                        "description": "ID of the formation",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "emblem_id": {
+                        "description": "ID of the emblem",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "coach_id": {
+                        "description": "ID of the coach",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "players": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "player_id",
+                                "position"
+                            ],
+                            "properties": {
+                                "player_id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "position": {
+                                    "$ref": "#/components/schemas/TeamPosition"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "TeamResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Team"
+                    }
+                },
+                "type": "object"
+            },
+            "Team": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Raimon"
+                    },
+                    "formation_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "formation": {
+                        "$ref": "#/components/schemas/Formation"
+                    },
+                    "emblem_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "emblem": {
+                        "$ref": "#/components/schemas/Emblem"
+                    },
+                    "coach_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "coach": {
+                        "$ref": "#/components/schemas/Coach"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "players": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Mark"
+                                },
+                                "full_name": {
+                                    "type": "string",
+                                    "example": "Mark Evans"
+                                },
+                                "position": {
+                                    "type": "string",
+                                    "example": "Portero"
+                                },
+                                "pivot": {
+                                    "$ref": "#/components/schemas/TeamPlayerPivot"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "TeamCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Team"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/teams?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/teams?page=3"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/teams?page=2"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 35
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "TechniqueRequest": {
+                "required": [
+                    "name",
+                    "element",
+                    "type"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Technique name",
+                        "type": "string",
+                        "example": "Mano Celestial"
+                    },
+                    "element": {
+                        "description": "Technique element",
+                        "type": "string",
+                        "example": "Fuego"
+                    },
+                    "type": {
+                        "description": "Technique type",
+                        "type": "string",
+                        "example": "Tiro"
+                    }
+                },
+                "type": "object"
+            },
+            "TechniqueResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Technique"
+                    }
+                },
+                "type": "object"
+            },
+            "Technique": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Fire Tornado"
+                    },
+                    "element": {
+                        "type": "string",
+                        "example": "fire"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "shoot"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "TechniqueCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Technique"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/techniques?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/techniques?page=3"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/v1/techniques?page=2"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 35
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Endpoints for Authentication"
+        },
+        {
+            "name": "Coaches",
+            "description": "Endpoints for Coaches"
+        },
+        {
+            "name": "Emblems",
+            "description": "Endpoints for Emblems"
+        },
+        {
+            "name": "Formations",
+            "description": "Endpoints for Formations"
+        },
+        {
+            "name": "Players",
+            "description": "Endpoints for managing players"
+        },
+        {
+            "name": "Stats",
+            "description": "Endpoints for Stats"
+        },
+        {
+            "name": "Teams",
+            "description": "Endpoints for managing football teams"
+        },
+        {
+            "name": "Techniques",
+            "description": "Endpoints for Techniques"
+        }
+    ]
+}

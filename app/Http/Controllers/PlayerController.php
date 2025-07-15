@@ -10,10 +10,106 @@ use App\Http\Resources\PlayerCollection;
 use App\Http\Resources\PlayerResource;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(
+ *     name="Players",
+ *     description="Endpoints for managing players"
+ * )
+ */
 class PlayerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/v1/players",
+     *     tags={"Players"},
+     *     summary="List all players",
+     *     description="Returns paginated list of players with optional filtering and relationship inclusion",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="name[eq]",
+     *         in="query",
+     *         description="Filter by exact player name",
+     *         @OA\Schema(type="string", example="Mark")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fullName[eq]",
+     *         in="query",
+     *         description="Filter by exact full name",
+     *         @OA\Schema(type="string", example="Mark Evans")
+     *     ),
+     *     @OA\Parameter(
+     *         name="position[eq]",
+     *         in="query",
+     *         description="Filter by exact position",
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"Portero", "Defensa", "Centrocampista", "Delantero"},
+     *             example="Portero"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="element[eq]",
+     *         in="query",
+     *         description="Filter by exact element",
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"Aire", "Bosque", "Fuego", "Montaña", "Neutro"},
+     *             example="Montaña"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="originalTeam[eq]",
+     *         in="query",
+     *         description="Filter by exact originalTeam name",
+     *         @OA\Schema(type="string", example="Raimon")
+     *     ),
+     *     @OA\Parameter(
+     *         name="kick[gt]",
+     *         in="query",
+     *         description="Filter by exact kick value",
+     *         @OA\Schema(type="string", example="80")
+     *     ),
+     *     @OA\Parameter(
+     *         name="control[lt]",
+     *         in="query",
+     *         description="Filter by exact control value",
+     *         @OA\Schema(type="string", example="60")
+     *     ),
+     *     @OA\Parameter(
+     *         name="technique[eq]",
+     *         in="query",
+     *         description="Filter by exact technique name",
+     *         @OA\Schema(type="string", example="Mano Celestial")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeStats",
+     *         in="query",
+     *         description="Include player stats in response",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeTechniques",
+     *         in="query",
+     *         description="Include player techniques in response",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeTeams",
+     *         in="query",
+     *         description="Include teams the player belongs to",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/PlayerCollection")
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -24,6 +120,7 @@ class PlayerController extends Controller
 
         $includeStats = $request->has('includeStats');
         $includeTechniques = $request->has('includeTechniques');
+        $includeTeams = $request->has('includeTeams');
 
         $players = Player::where($queryItems);
 
@@ -35,27 +132,39 @@ class PlayerController extends Controller
             });
         }
 
-        if ($includeStats) {
-            $players = $players->with('stats');
-        }
+        $withRelations = [];
+        if ($includeStats) $withRelations[] = 'stats';
+        if ($includeTechniques) $withRelations[] = 'techniques';
+        if ($includeTeams) $withRelations[] = 'teams';
 
-        if ($includeTechniques) {
-            $players = $players->with('techniques');
+        if (!empty($withRelations)) {
+            $players = $players->with($withRelations);
         }
 
         return new PlayerCollection($players->paginate()->appends($request->query()));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/v1/players",
+     *     tags={"Players"},
+     *     summary="Create new player",
+     *     description="Create a new player with stats and techniques",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/PlayerRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Player created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/PlayerResource")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(StorePlayerRequest $request)
     {
@@ -80,40 +189,101 @@ class PlayerController extends Controller
         }
 
         $player->load('stats', 'techniques');
-
         return new PlayerResource($player);
     }
 
-
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/players/{id}",
+     *     tags={"Players"},
+     *     summary="Get player details",
+     *     description="Returns detailed information about a specific player",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Player ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeStats",
+     *         in="query",
+     *         description="Include player stats in response",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeTechniques",
+     *         in="query",
+     *         description="Include player techniques in response",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeTeams",
+     *         in="query",
+     *         description="Include teams the player belongs to",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Player details",
+     *         @OA\JsonContent(ref="#/components/schemas/PlayerResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Player not found"
+     *     )
+     * )
      */
     public function show(Player $player)
     {
         $includeStats = request()->has('includeStats');
         $includeTechniques = request()->has('includeTechniques');
+        $includeTeams = request()->has('includeTeams');
 
-        if ($includeStats && $includeTechniques) {
-            return new PlayerResource($player->loadMissing(['stats', 'techniques']));
-        } elseif ($includeStats) {
-            return new PlayerResource($player->loadMissing('stats'));
-        } elseif ($includeTechniques) {
-            return new PlayerResource($player->loadMissing('techniques'));
+        $relations = [];
+        if ($includeStats) $relations[] = 'stats';
+        if ($includeTechniques) $relations[] = 'techniques';
+        if ($includeTeams) $relations[] = 'teams';
+
+        if (!empty($relations)) {
+            return new PlayerResource($player->loadMissing($relations));
         }
 
         return new PlayerResource($player);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Player $player)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/players/{id}",
+     *     tags={"Players"},
+     *     summary="Update player",
+     *     description="Update player information including stats and techniques",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Player ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/PlayerRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Player updated successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/PlayerResource")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Player not found"
+     *     )
+     * )
      */
     public function update(UpdatePlayerRequest $request, Player $player)
     {
@@ -152,7 +322,31 @@ class PlayerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/players/{id}",
+     *     tags={"Players"},
+     *     summary="Delete player",
+     *     description="Permanently delete a player",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Player ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Player deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Player deleted successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Player not found"
+     *     )
+     * )
      */
     public function destroy(Player $player)
     {

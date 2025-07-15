@@ -13,12 +13,81 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
+/**
+ * @OA\Tag(
+ *     name="Teams",
+ *     description="Endpoints for managing football teams"
+ * )
+ */
 class TeamController extends Controller
 {
     use AuthorizesRequests;
 
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/v1/teams",
+     *     tags={"Teams"},
+     *     summary="List all teams with optional filters",
+     *     description="Returns paginated list of teams. Different results are returned based on user role (admin, authenticated user, or guest).",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="name[eq]",
+     *         in="query",
+     *         description="Filter by exact team name",
+     *         @OA\Schema(type="string", example="Raimon")
+     *     ),
+     *     @OA\Parameter(
+     *         name="userId[eq]",
+     *         in="query",
+     *         description="Filter by exact user ID who owns the team",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="playerName[eq]",
+     *         in="query",
+     *         description="Filter teams containing players with exact name",
+     *         @OA\Schema(type="string", example="Mark")
+     *     ),
+     *     @OA\Parameter(
+     *         name="playerFullName[eq]",
+     *         in="query",
+     *         description="Filter teams containing players with exact full name",
+     *         @OA\Schema(type="string", example="Mark Evans")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includePlayers",
+     *         in="query",
+     *         description="Include players in the response",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeStats",
+     *         in="query",
+     *         description="Include player stats (requires includePlayers)",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeTechniques",
+     *         in="query",
+     *         description="Include player techniques (requires includePlayers)",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/TeamCollection")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -137,17 +206,27 @@ class TeamController extends Controller
         return new TeamCollection($query->paginate()->appends($request->query()));
     }
 
-
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/v1/teams",
+     *     tags={"Teams"},
+     *     summary="Create a new team",
+     *     description="Creates a new team with the specified players and their positions",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/TeamRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Team created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/TeamResource")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(StoreTeamRequest $request)
     {
@@ -170,7 +249,51 @@ class TeamController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/teams/{id}",
+     *     tags={"Teams"},
+     *     summary="Get team details",
+     *     description="Returns detailed information about a specific team",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Team ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includePlayers",
+     *         in="query",
+     *         description="Include players in the response",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeStats",
+     *         in="query",
+     *         description="Include player stats (requires includePlayers)",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeTechniques",
+     *         in="query",
+     *         description="Include player techniques (requires includePlayers)",
+     *         @OA\Schema(type="boolean", example=true)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Team details",
+     *         @OA\JsonContent(ref="#/components/schemas/TeamResource")
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden - not authorized to view this team"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Team not found"
+     *     )
+     * )
      */
     public function show(Team $team)
     {
@@ -197,15 +320,37 @@ class TeamController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Team $team)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/teams/{id}",
+     *     tags={"Teams"},
+     *     summary="Update team information",
+     *     description="Updates team details and player positions",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Team ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/TeamRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Team updated successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/TeamResource")
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden - not authorized to update this team"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function update(UpdateTeamRequest $request, Team $team)
     {
@@ -240,7 +385,31 @@ class TeamController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/teams/{id}",
+     *     tags={"Teams"},
+     *     summary="Delete a team",
+     *     description="Permanently deletes a team",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Team ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Team deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Team deleted successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden - not authorized to delete this team"
+     *     )
+     * )
      */
     public function destroy(Team $team)
     {

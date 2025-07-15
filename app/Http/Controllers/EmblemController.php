@@ -10,10 +10,45 @@ use App\Http\Resources\EmblemCollection;
 use App\Http\Resources\EmblemResource;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(
+ *     name="Emblems",
+ *     description="Endpoints for Emblems"
+ * )
+ */
 class EmblemController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/v1/emblems",
+     *     tags={"Emblems"},
+     *     summary="List all emblems",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="name[eq]",
+     *         in="query",
+     *         @OA\Schema(type="string", example="Raimon")
+     *     ),
+     *     @OA\Parameter(
+     *         name="version[eq]",
+     *         in="query",
+     *         @OA\Schema(type="string", example="ie1")
+     *     ),
+     *     @OA\Parameter(
+     *         name="version[ne]",
+     *         in="query",
+     *         @OA\Schema(type="string", example="ie1")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/EmblemCollection")
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -25,15 +60,21 @@ class EmblemController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/v1/emblems",
+     *     tags={"Emblems"},
+     *     summary="Create new emblem",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/EmblemRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Emblem created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/EmblemResource")
+     *     )
+     * )
      */
     public function store(StoreEmblemRequest $request)
     {
@@ -41,7 +82,26 @@ class EmblemController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/emblems/{id}",
+     *     tags={"Emblems"},
+     *     summary="Get specific emblem",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Emblem details",
+     *         @OA\JsonContent(ref="#/components/schemas/EmblemResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Emblem not found"
+     *     )
+     * )
      */
     public function show(Emblem $emblem)
     {
@@ -49,15 +109,27 @@ class EmblemController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Emblem $emblem)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/emblems/{id}",
+     *     tags={"Emblems"},
+     *     summary="Update an emblem",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/EmblemRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Emblem updated",
+     *         @OA\JsonContent(ref="#/components/schemas/EmblemResource")
+     *     )
+     * )
      */
     public function update(UpdateEmblemRequest $request, Emblem $emblem)
     {
@@ -66,7 +138,25 @@ class EmblemController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/emblems/{id}",
+     *     tags={"Emblems"},
+     *     summary="Delete emblem",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Emblem deleted",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Emblem deleted successfully")
+     *         )
+     *     )
+     * )
      */
     public function destroy(Emblem $emblem)
     {
