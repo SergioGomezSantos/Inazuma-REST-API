@@ -13,20 +13,40 @@
 - Users can acces the CRUD for their own Teams
 - Admin can access everything
 
-## Endpoints
+## 🌐 Endpoints
+<details>
+<summary>Endpoints Examples</summary>
+
 ![Docs 1](/resources/img/documentation/Docs%201.PNG)
 ![Docs 2](/resources/img/documentation/Docs%202.PNG)
 ![Docs 3](/resources/img/documentation/Docs%203.PNG)
 
-## Filters Examples
+</details>
+
+## 🔎 Filters
+<details>
+<summary>Endpoints Examples</summary>
+
 ![Filters](/resources/img/documentation/Filters.PNG)
 ![Filters 2](/resources/img/documentation/Filters%202.PNG)
 
-## Responses Examples
+</details>
+
+## 📤 Responses
+<details>
+<summary>Endpoints Examples</summary>
+
 ![Responses](/resources/img/documentation/Responses.PNG)
 ![Responses 2](/resources/img/documentation/Responses%202.PNG)
 
-## Schemas Examples
+</details>
+
+## 📝 Schemas Examples
+<details>
+<summary>Endpoints Examples</summary>
+
 ![Schemas 1](/resources/img/documentation/Schemas%201.PNG)
 ![Schemas 2](/resources/img/documentation/Schemas%202.PNG)
 ![Schemas 3](/resources/img/documentation/Schemas%203.PNG)
+
+</details>
