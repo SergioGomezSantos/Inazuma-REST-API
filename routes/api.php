@@ -41,7 +41,12 @@ Route::group([
     Route::get('techniques', [TechniqueController::class, 'index']);
     Route::get('techniques/{technique}', [TechniqueController::class, 'show']);
 
-    // Protected Routes
+    // Registered User
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::apiResource('teams', TeamController::class)->except(['index', 'show']);
+    });
+
+    // Admin Routes
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::apiResources([
             'coaches' => CoachController::class,
@@ -49,7 +54,6 @@ Route::group([
             'formations' => FormationController::class,
             'players' => PlayerController::class,
             'stats' => StatController::class,
-            'teams' => TeamController::class,
             'techniques' => TechniqueController::class,
         ], ['except' => ['index', 'show']]);
     });

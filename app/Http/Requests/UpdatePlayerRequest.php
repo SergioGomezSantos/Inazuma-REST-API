@@ -53,11 +53,10 @@ class UpdatePlayerRequest extends FormRequest
 
                 // Techniques with N:M
                 'techniques' => ['required', 'array'],
-                'techniques.*' => ['exists:techniques,id'],
+                'techniques.*.id' => ['required', 'exists:techniques,id'],
                 'techniques.*.source' => ['string', Rule::in(['anime1', 'anime2', 'anime3', 'ie1', 'ie2', 'ie3'])],
                 'techniques.*.with' => ['nullable', 'json'],
             ];
-
         } else {
 
             return [
@@ -67,7 +66,7 @@ class UpdatePlayerRequest extends FormRequest
                 'element' => ['nullable', Rule::in(['Montaña', 'Aire', 'Bosque', 'Fuego'])],
                 'originalTeam' => ['nullable', 'string', 'max:255'],
                 'image' => [
-                    'nullable', 
+                    'nullable',
                     'url',
                     'regex:/^https:\/\/static\.wikia\.nocookie\.net\/.*inazuma.*\/images/'
                 ],
@@ -89,7 +88,7 @@ class UpdatePlayerRequest extends FormRequest
 
                 // Techniques with N:M
                 'techniques' => ['nullable', 'array'],
-                'techniques.*' => ['nullable', 'exists:techniques,id'],
+                'techniques.*.id' => ['required_with:techniques', 'exists:techniques,id'],
                 'techniques.*.source' => ['nullable', 'string', Rule::in(['anime1', 'anime2', 'anime3', 'ie1', 'ie2', 'ie3'])],
                 'techniques.*.with' => ['nullable', 'json'],
             ];

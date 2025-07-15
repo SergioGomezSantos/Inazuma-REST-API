@@ -22,19 +22,26 @@ class ImportData extends Command
     public function handle()
     {
         // Crear admin si no existe
-        $adminUser = User::firstOrCreate(
-            ['email' => 'admin@admin'],
+        $adminUser = User::create([
+            'email' => 'admin@admin',
+            'name' => 'admin',
+            'password' => bcrypt('1234'),
+            'is_admin' => true
+        ]);
+
+        User::create(
             [
-                'name' => 'admin',
+                'email' => 'normal@normal',
+                'name' => 'normal',
                 'password' => bcrypt('1234'),
-                'is_admin' => true,
+                'is_admin' => false,
             ]
         );
 
-        User::firstOrCreate(
-            ['email' => 'normal@normal'],
+        User::create(
             [
-                'name' => 'normal',
+                'email' => 'normal@normal2',
+                'name' => 'normal2',
                 'password' => bcrypt('4321'),
                 'is_admin' => false,
             ]

@@ -25,7 +25,7 @@ class UpdateStatRequest extends FormRequest
        if ($this->method == 'PUT') {
 
             return [
-                'playerId' => ['required', 'exists:player,id'],
+                'playerId' => ['required', 'exists:players,id'],
                 'GP' => ['required', 'integer', 'min:0'],
                 'TP' => ['required', 'integer', 'min:0'],
                 'kick' => ['required', 'integer', 'min:0'],
@@ -41,7 +41,7 @@ class UpdateStatRequest extends FormRequest
         } else {
 
             return [
-                'playerId' => ['nullable', 'exists:player,id'],
+                'playerId' => ['nullable', 'exists:players,id'],
                 'GP' => ['nullable', 'integer', 'min:0'],
                 'TP' => ['nullable', 'integer', 'min:0'],
                 'kick' => ['nullable', 'integer', 'min:0'],

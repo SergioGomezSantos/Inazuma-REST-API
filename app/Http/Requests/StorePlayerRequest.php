@@ -50,7 +50,7 @@ class StorePlayerRequest extends FormRequest
 
             // Techniques with N:M
             'techniques' => ['required', 'array'],
-            'techniques.*' => ['exists:techniques,id'],
+            'techniques.*.id' => ['exists:techniques,id'],
             'techniques.*.source' => ['string', Rule::in(['anime1', 'anime2', 'anime3', 'ie1', 'ie2', 'ie3'])],
             'techniques.*.with' => ['nullable', 'json'],
         ];

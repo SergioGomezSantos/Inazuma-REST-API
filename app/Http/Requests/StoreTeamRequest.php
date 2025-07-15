@@ -24,10 +24,9 @@ class StoreTeamRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'formationId' => ['required', 'exists:formation,id'],
-            'emblemId' => ['required', 'exists:emblem,id'],
-            'coachId' => ['required', 'exists:coach,id'],
-            'userId' => ['required', 'exists:user,id'],
+            'formationId' => ['required', 'exists:formations,id'],
+            'emblemId' => ['required', 'exists:emblems,id'],
+            'coachId' => ['required', 'exists:coaches,id'],
 
             'players' => ['required', 'array'],
             'players.*.player_id' => ['required', 'exists:players,id'],
@@ -52,12 +51,6 @@ class StoreTeamRequest extends FormRequest
         if ($this->coachId) {
             $this->merge([
                 'coach_id' => $this->coachId
-            ]);
-        }
-
-        if ($this->userId) {
-            $this->merge([
-                'user_id' => $this->userId
             ]);
         }
     }

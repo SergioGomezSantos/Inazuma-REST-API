@@ -33,7 +33,7 @@ class PlayerController extends Controller
         }
 
         if ($includeStats && $includeTechniques) {
-        $players = $players->with(['stats', 'techniques']);
+            $players = $players->with(['stats', 'techniques']);
         }
 
         return new PlayerCollection($players->paginate()->appends($request->query()));
@@ -53,7 +53,12 @@ class PlayerController extends Controller
     public function store(StorePlayerRequest $request)
     {
         $player = Player::create($request->only([
-            'name', 'fullName', 'position', 'element', 'originalTeam', 'image'
+            'name',
+            'full_name',
+            'position',
+            'element',
+            'original_team',
+            'image'
         ]));
 
         foreach ($request->input('stats') as $statData) {
@@ -83,17 +88,12 @@ class PlayerController extends Controller
 
         if ($includeStats && $includeTechniques) {
             return new PlayerResource($player->loadMissing(['stats', 'techniques']));
-        }
-
-        elseif ($includeStats) {
+        } elseif ($includeStats) {
             return new PlayerResource($player->loadMissing('stats'));
-        }
-
-        elseif ($includeTechniques) {
+        } elseif ($includeTechniques) {
             return new PlayerResource($player->loadMissing('techniques'));
-
         }
-        
+
         return new PlayerResource($player);
     }
 
@@ -110,17 +110,19 @@ class PlayerController extends Controller
      */
     public function update(UpdatePlayerRequest $request, Player $player)
     {
-
         $player->update($request->only([
-            'name', 'full_name', 'position', 'element', 'original_team', 'image'
+            'name',
+            'full_name',
+            'position',
+            'element',
+            'original_team',
+            'image'
         ]));
-
 
         if ($request->has('stats')) {
             foreach ($request->input('stats') as $statData) {
-                $stat = $player->stats()->find($statData['id']);
-                if ($stat) {
-                    $stat->update($statData);
+                if (isset($statData['id'])) {
+                    $player->stats()->where('id', $statData['id'])->update($statData);
                 } else {
                     $player->stats()->create($statData);
                 }
@@ -128,14 +130,14 @@ class PlayerController extends Controller
         }
 
         if ($request->has('techniques')) {
+            $techniquesData = [];
             foreach ($request->input('techniques') as $techniqueData) {
-                $player->techniques()->syncWithoutDetaching([
-                    $techniqueData['id'] => [
-                        'source' => $techniqueData['source'],
-                        'with' => $techniqueData['with'] ? json_encode($techniqueData['with']) : null
-                    ]
-                ]);
+                $techniquesData[$techniqueData['id']] = [
+                    'source' => $techniqueData['source'] ?? null,
+                    'with' => isset($techniqueData['with']) ? json_encode($techniqueData['with']) : null
+                ];
             }
+            $player->techniques()->sync($techniquesData);
         }
 
         $player->load('stats', 'techniques');

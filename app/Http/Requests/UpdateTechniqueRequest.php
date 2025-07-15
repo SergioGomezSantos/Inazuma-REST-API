@@ -25,33 +25,44 @@ class UpdateTechniqueRequest extends FormRequest
         if ($this->method == 'PUT') {
 
             return [
-            'name' => ['required', 'string', 'unique:techniques,name'],
-            'element' => [
-                'nullable', 
-                Rule::in(['Aire', 'Bosque', 'Fuego', 'Montaña', 'Neutro']),
-                function ($attribute, $value, $fail) {
-                    if ($this->input('type') !== 'Talento' && $value !== null) {
-                        $fail('The "element" field can only be null if "type" is Talento.');
-                    }
-                }
-            ],
-            'type' => ['required', Rule::in(['Aire', 'Bosque', 'Fuego', 'Montaña', 'Neutro'])]
-            ];
+                'name' => ['required', 'string', 'unique:techniques,name'],
+                'element' => [
+                    'nullable',
+                    Rule::in(['Aire', 'Bosque', 'Fuego', 'Montaña', 'Neutro']),
+                    function ($attribute, $value, $fail) {
+                        $type = $this->input('type');
 
+                        if ($type === 'Talento' && $value !== null) {
+                            $fail('Talents cannot have an element');
+                        }
+
+                        if ($type !== 'Talento' && $value === null) {
+                            $fail('Non-talent techniques require an element');
+                        }
+                    }
+                ],
+                'type' => ['sometimes', Rule::in(['Tiro', 'Regate', 'Bloqueo', 'Atajo', 'Talento'])]
+            ];
         } else {
 
             return [
-            'name' => ['nullable', 'string', 'unique:techniques,name'],
-            'element' => [
-                'nullable', 
-                Rule::in(['Aire', 'Bosque', 'Fuego', 'Montaña', 'Neutro']),
-                function ($attribute, $value, $fail) {
-                    if ($this->input('type') !== 'Talento' && $value !== null) {
-                        $fail('The "element" field can only be null if "type" is Talento.');
+                'name' => ['nullable', 'string', 'unique:techniques,name'],
+                'element' => [
+                    'nullable',
+                    Rule::in(['Aire', 'Bosque', 'Fuego', 'Montaña', 'Neutro']),
+                    function ($attribute, $value, $fail) {
+                        $type = $this->input('type');
+
+                        if ($type === 'Talento' && $value !== null) {
+                            $fail('Talents cannot have an element');
+                        }
+
+                        if ($type !== 'Talento' && $value === null) {
+                            $fail('Non-talent techniques require an element');
+                        }
                     }
-                }
-            ],
-            'type' => ['nullable', Rule::in(['Aire', 'Bosque', 'Fuego', 'Montaña', 'Neutro'])]
+                ],
+                'type' => ['sometimes', Rule::in(['Tiro', 'Regate', 'Bloqueo', 'Atajo', 'Talento'])]
             ];
         }
     }

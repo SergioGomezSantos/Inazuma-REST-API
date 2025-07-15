@@ -72,7 +72,7 @@ class StatController extends Controller
     {
         $stat->delete();
         return response()->json([
-            'message' => 'Stats deleted successfully.',
+            'message' => 'Stat deleted successfully.',
         ], 200);
     }
 }

@@ -25,10 +25,9 @@ class UpdateTeamRequest extends FormRequest
 
             return [
                 'name' => ['required', 'string'],
-                'formationId' => ['required', 'exists:formation,id'],
-                'emblemId' => ['required', 'exists:emblem,id'],
-                'coachId' => ['required', 'exists:coach,id'],
-                'userId' => ['required', 'exists:user,id'],
+                'formationId' => ['required', 'exists:formations,id'],
+                'emblemId' => ['required', 'exists:emblems,id'],
+                'coachId' => ['required', 'exists:coaches,id'],
 
                 'players' => ['required', 'array'],
                 'players.*.player_id' => ['required', 'exists:players,id'],
@@ -38,10 +37,9 @@ class UpdateTeamRequest extends FormRequest
 
             return [
                 'name' => ['nullable', 'string'],
-                'formationId' => ['nullable', 'exists:formation,id'],
-                'emblemId' => ['nullable', 'exists:emblem,id'],
-                'coachId' => ['nullable', 'exists:coach,id'],
-                'userId' => ['nullable', 'exists:user,id'],
+                'formationId' => ['nullable', 'exists:formations,id'],
+                'emblemId' => ['nullable', 'exists:emblems,id'],
+                'coachId' => ['nullable', 'exists:coaches,id'],
 
                 'players' => ['nullable', 'array'],
                 'players.*.player_id' => ['nullable', 'exists:players,id'],

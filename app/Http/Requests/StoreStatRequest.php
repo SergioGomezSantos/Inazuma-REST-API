@@ -23,7 +23,7 @@ class StoreStatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'playerId' => ['required', 'exists:player,id'],
+            'playerId' => ['required', 'exists:players,id'],
             'GP' => ['required', 'integer', 'min:0'],
             'TP' => ['required', 'integer', 'min:0'],
             'kick' => ['required', 'integer', 'min:0'],
